@@ -10,5 +10,6 @@
     <orderEntry type="library" name="javafx-fxml-17.0.1-win" level="project" />
     <orderEntry type="library" name="JUnit" level="project" />
     <orderEntry type="library" name="Misc" level="project" />
+    <orderEntry type="library" name="JavaFX" level="project" />
   </component>
 </module>
