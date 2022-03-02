@@ -35,10 +35,10 @@ public class CrezantUI extends Application {
         //root.getChildren().add(btn);
 
 
-        VBox messagesFeild = new VBox();//vbox to hold sent and received messages
-        messagesFeild.setSpacing(10);
-        messagesFeild.prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
-        messagesFeild.setBackground(new Background(new BackgroundFill(Paint.valueOf("#26007A"), null, null)));//sets the background color
+        VBox messagesField = new VBox();//vbox to hold sent and received messages
+        messagesField.setSpacing(10);
+        messagesField.prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
+        messagesField.setBackground(new Background(new BackgroundFill(Paint.valueOf("#26007A"), null, null)));//sets the background color
 
 
 
@@ -51,10 +51,10 @@ public class CrezantUI extends Application {
         File infile = new File("test_text_info.txt");
 
         //sets up the pane with all the messages in it
-        displayText(infile, messagesFeild);
+        displayText(infile, messagesField);
 
         //adds the vbox with the messages to the scroller
-        scroller.setContent(messagesFeild);
+        scroller.setContent(messagesField);
 
         stage.setScene(new Scene(scroller, 300, 250));
         stage.show();
