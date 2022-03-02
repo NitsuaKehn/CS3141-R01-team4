@@ -69,10 +69,10 @@ public class CrezantUI extends Application {
             //loops until file is empty
             while(in.hasNext()) {
 
-                //stores wheather the message should be left aligned
+                //stores whether the message should be left aligned
                 Boolean leftAlign;
 
-                //checks whather there is an R(recived) at the begining of the line
+                //checks whether there is an R(received) at the beginning of the line
                 if (in.next().equals("R")) {
                     leftAlign = true;
                 }
@@ -96,7 +96,7 @@ public class CrezantUI extends Application {
                 //adds the label to the hbox
                 hbox.getChildren().add(temp);
 
-                //checks the alignment type and set the apropiate one
+                //checks the alignment type and set the appropriate one
                 if(!leftAlign)
                 {
                     hbox.setAlignment(Pos.BASELINE_RIGHT);
