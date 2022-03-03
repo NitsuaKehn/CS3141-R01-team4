@@ -11,8 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -28,13 +32,47 @@ public class CrezantUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
         stage.setTitle("Crezant");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World!");
-        btn.setOnAction(actionEvent -> System.out.println("Hello World!"));
-        //root.getChildren().add(btn);
+
+        Pane root = new Pane();
+
+        //Boundries
+        Line contactLine = new Line(200,0,200,750);
+        contactLine.setStrokeWidth(5.0);
+        contactLine.setStroke(Color.BLACK);
+
+        Line titleLine = new Line(0,75,750,75);
+        titleLine.setStrokeWidth(5.0);
+        titleLine.setStroke(Color.BLACK);
+
+        Line textBoxLine = new Line(200,650,750,650);
+        textBoxLine.setStrokeWidth(5.0);
+        textBoxLine.setStroke(Color.BLACK);
+
+        //Buttons
+        Button optBtn = new Button("Options");
+
+        //On screen text
+        Text contactName = new Text("Contact Name");
+        contactName.setStroke(Color.WHITE);
 
 
+
+        //Text field
+        TextField textField1 = new TextField("Enter text here...");
+        textField1.setLayoutX(202.0);
+        textField1.setLayoutY(652.0);
+        textField1.setPrefSize(550,100);
+
+
+
+
+
+        root.setStyle("-fx-background-color: grey"); //sets background to indigo.
+        root.getChildren().add(optBtn);
+
+        root.getChildren().addAll(titleLine, contactLine, textBoxLine, textField1);
         VBox messagesField = new VBox();//vbox to hold sent and received messages
         messagesField.setSpacing(10);
         messagesField.prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
@@ -56,8 +94,13 @@ public class CrezantUI extends Application {
         //adds the vbox with the messages to the scroller
         scroller.setContent(messagesField);
 
-        stage.setScene(new Scene(scroller, 300, 250));
+        root.getChildren().add(scroller);
+
+        Scene scene = new Scene(root, 750, 750); //Size of opened window.
+        stage.setScene(scene);
         stage.show();
+
+
     }
 
     //gets the messages from the text file and adds them to the feild
