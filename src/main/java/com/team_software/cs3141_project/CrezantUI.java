@@ -35,20 +35,40 @@ public class CrezantUI extends Application {
 
         stage.setTitle("Crezant");
 
-        Pane root = new Pane();
+        GridPane root = new GridPane();
+        root.setGridLinesVisible(true);
+        root.setHgap(5);
+        root.setVgap(5);
+
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(25);
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(25);
+        ColumnConstraints col3 = new ColumnConstraints();
+        col3.setPercentWidth(25);
+        ColumnConstraints col4 = new ColumnConstraints();
+        col3.setPercentWidth(25);
+        root.getColumnConstraints().addAll(col1,col2,col3,col4);
+        RowConstraints row1 = new RowConstraints();
+        row1.setPercentHeight(5);
+        RowConstraints row2 = new RowConstraints();
+        row2.setPercentHeight(80);
+        RowConstraints row3 = new RowConstraints();
+        row3.setPercentHeight(15);
+        root.getRowConstraints().addAll(row1,row2,row3);
 
         //Boundries
-        Line contactLine = new Line(200,0,200,750);
-        contactLine.setStrokeWidth(5.0);
-        contactLine.setStroke(Color.BLACK);
-
-        Line titleLine = new Line(0,75,750,75);
-        titleLine.setStrokeWidth(5.0);
-        titleLine.setStroke(Color.BLACK);
-
-        Line textBoxLine = new Line(200,650,750,650);
-        textBoxLine.setStrokeWidth(5.0);
-        textBoxLine.setStroke(Color.BLACK);
+//        Line contactLine = new Line(200,0,200,750);
+//        contactLine.setStrokeWidth(5.0);
+//        contactLine.setStroke(Color.BLACK);
+//
+//        Line titleLine = new Line(0,75,750,75);
+//        titleLine.setStrokeWidth(5.0);
+//        titleLine.setStroke(Color.BLACK);
+//
+//        Line textBoxLine = new Line(200,650,750,650);
+//        textBoxLine.setStrokeWidth(5.0);
+//        textBoxLine.setStroke(Color.BLACK);
 
         //Buttons
         Button optBtn = new Button("Options");
@@ -64,26 +84,45 @@ public class CrezantUI extends Application {
         textField1.setLayoutX(202.0);
         textField1.setLayoutY(652.0);
         textField1.setPrefSize(550,100);
+        textField1.setPrefHeight(1000);
+        textField1.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
+        textField1.setStyle("-fx-text-fill: white;");
 
 
 
+        root.prefHeightProperty().bind(stage.heightProperty());
+        root.prefWidthProperty().bind((stage.widthProperty()));
 
+        root.setStyle("-fx-background-color: 3C3C3C"); //sets background to indigo.
+        root.add(optBtn, 0,0);
 
-        root.setStyle("-fx-background-color: grey"); //sets background to indigo.
-        root.getChildren().add(optBtn);
+        root.add(textField1, 1,2, 3, 1);
 
-        root.getChildren().addAll(titleLine, contactLine, textBoxLine, textField1);
+        //root.getChildren().addAll(titleLine, contactLine, textBoxLine, textField1);
         VBox messagesField = new VBox();//vbox to hold sent and received messages
         messagesField.setSpacing(10);
         messagesField.prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
-        messagesField.setBackground(new Background(new BackgroundFill(Paint.valueOf("#26007A"), null, null)));//sets the background color
+        messagesField.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
 
+        VBox contactsField = new VBox();//vbox to hold sent and received messages
+        contactsField.setSpacing(10);
+        contactsField.prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
+        contactsField.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));
 
 
         ScrollPane scroller = new ScrollPane();//pane that allows scrolling
         scroller.fitToHeightProperty().set(true);//makes the scrollpane be the total vertical size
+        scroller.fitToWidthProperty().set(true);
         scroller.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);//makes the side scrollbar show up
         scroller.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);//makes the bottom scroll bar hidden
+
+        ScrollPane contacts = new ScrollPane();
+        contacts.fitToHeightProperty().set(true);//makes the scrollpane be the total vertical size
+        contacts.fitToWidthProperty().set(true);
+        contacts.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);//makes the side scrollbar show up
+        contacts.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);//makes the bottom scroll bar hidden
+        contacts.setPrefWidth(100);
+
 
         //file that holds the messages info
         File infile = new File("test_text_info.txt");
@@ -93,8 +132,12 @@ public class CrezantUI extends Application {
 
         //adds the vbox with the messages to the scroller
         scroller.setContent(messagesField);
+        contacts.setContent(contactsField);
 
-        root.getChildren().add(scroller);
+        //scroller.setPadding(new Insets(20));
+
+        root.add(scroller,1,0,3,2);
+        root.add(contacts, 0,1,1,3);
 
         Scene scene = new Scene(root, 750, 750); //Size of opened window.
         stage.setScene(scene);
@@ -128,9 +171,9 @@ public class CrezantUI extends Application {
                 //creates temp label
                 Label temp = new Label(in.nextLine());
                 //adds padding so the scroll bar doesn't cover words
-                temp.setPadding(new Insets(5,50,5,15));
+                temp.setPadding(new Insets(5,15,5,15));
                 //adds the background
-                temp.setBackground(new Background(new BackgroundFill(Paint.valueOf("#4B0082"), new CornerRadii(20), new Insets(0,45,0,10))));
+                temp.setBackground(new Background(new BackgroundFill(Paint.valueOf("#4B0082"), new CornerRadii(20), new Insets(0,10,0,10))));
                 //sets the text color
                 temp.setTextFill(Paint.valueOf("#006FFF"));
 
