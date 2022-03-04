@@ -35,11 +35,14 @@ public class CrezantUI extends Application {
 
         stage.setTitle("Crezant");
 
+        //creates the gridpane
         GridPane root = new GridPane();
-        root.setGridLinesVisible(true);
+        root.setGridLinesVisible(true);//use this for debugging/protyping
         root.setHgap(5);
         root.setVgap(5);
+        root.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
 
+        //makes and adds all of the cols to the gridpane with the apropriate spaceing
         ColumnConstraints col1 = new ColumnConstraints();
         col1.setPercentWidth(25);
         ColumnConstraints col2 = new ColumnConstraints();
@@ -49,6 +52,8 @@ public class CrezantUI extends Application {
         ColumnConstraints col4 = new ColumnConstraints();
         col3.setPercentWidth(25);
         root.getColumnConstraints().addAll(col1,col2,col3,col4);
+
+        //makes and adds all of the rows to the gridpane with the apropriate spaceing
         RowConstraints row1 = new RowConstraints();
         row1.setPercentHeight(5);
         RowConstraints row2 = new RowConstraints();
@@ -57,18 +62,7 @@ public class CrezantUI extends Application {
         row3.setPercentHeight(15);
         root.getRowConstraints().addAll(row1,row2,row3);
 
-        //Boundries
-//        Line contactLine = new Line(200,0,200,750);
-//        contactLine.setStrokeWidth(5.0);
-//        contactLine.setStroke(Color.BLACK);
-//
-//        Line titleLine = new Line(0,75,750,75);
-//        titleLine.setStrokeWidth(5.0);
-//        titleLine.setStroke(Color.BLACK);
-//
-//        Line textBoxLine = new Line(200,650,750,650);
-//        textBoxLine.setStrokeWidth(5.0);
-//        textBoxLine.setStroke(Color.BLACK);
+
 
         //Buttons
         Button optBtn = new Button("Options");
@@ -89,26 +83,28 @@ public class CrezantUI extends Application {
         textField1.setStyle("-fx-text-fill: white;");
 
 
-
+        //makes the gridpane resize with window
         root.prefHeightProperty().bind(stage.heightProperty());
         root.prefWidthProperty().bind((stage.widthProperty()));
+        root.setStyle("-fx-background-color: 3C3C3C"); //sets background to gray.
 
-        root.setStyle("-fx-background-color: 3C3C3C"); //sets background to indigo.
+
         root.add(optBtn, 0,0);
-
         root.add(textField1, 1,2, 3, 1);
 
-        //root.getChildren().addAll(titleLine, contactLine, textBoxLine, textField1);
+        //makes messages vbox
         VBox messagesField = new VBox();//vbox to hold sent and received messages
         messagesField.setSpacing(10);
         messagesField.prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
         messagesField.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
 
+        //makes contacts vbox
         VBox contactsField = new VBox();//vbox to hold sent and received messages
         contactsField.setSpacing(10);
         contactsField.prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
         contactsField.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));
 
+        contactsField.getChildren().add(contactName);
 
         ScrollPane scroller = new ScrollPane();//pane that allows scrolling
         scroller.fitToHeightProperty().set(true);//makes the scrollpane be the total vertical size
@@ -116,6 +112,7 @@ public class CrezantUI extends Application {
         scroller.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);//makes the side scrollbar show up
         scroller.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);//makes the bottom scroll bar hidden
 
+        //makes scroller for contacts
         ScrollPane contacts = new ScrollPane();
         contacts.fitToHeightProperty().set(true);//makes the scrollpane be the total vertical size
         contacts.fitToWidthProperty().set(true);
@@ -134,8 +131,8 @@ public class CrezantUI extends Application {
         scroller.setContent(messagesField);
         contacts.setContent(contactsField);
 
-        //scroller.setPadding(new Insets(20));
 
+        //add scrollpanes to the gridpane
         root.add(scroller,1,0,3,2);
         root.add(contacts, 0,1,1,3);
 
