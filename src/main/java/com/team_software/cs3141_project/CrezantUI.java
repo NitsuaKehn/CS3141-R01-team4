@@ -153,17 +153,11 @@ public class CrezantUI extends Application {
             while(in.hasNext()) {
 
                 //stores whether the message should be left aligned
-                Boolean leftAlign;
+                boolean leftAlign;
 
                 //checks whether there is an R(received) at the beginning of the line
-                if (in.next().equals("R")) {
-                    leftAlign = true;
-                }
                 //means there is a S(sent)
-                else
-                {
-                    leftAlign = false;
-                }
+                leftAlign = in.next().equals("R");
 
                 //creates temp label
                 Label temp = new Label(in.nextLine());
