@@ -46,12 +46,8 @@ public class CrezantUI extends Application {
         ColumnConstraints col1 = new ColumnConstraints();
         col1.setPercentWidth(25);
         ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(25);
-        ColumnConstraints col3 = new ColumnConstraints();
-        col3.setPercentWidth(25);
-        ColumnConstraints col4 = new ColumnConstraints();
-        col3.setPercentWidth(25);
-        root.getColumnConstraints().addAll(col1,col2,col3,col4);
+        col2.setPercentWidth(75);
+        root.getColumnConstraints().addAll(col1,col2);
 
         //makes and adds all of the rows to the gridpane with the appropriate spacing
         RowConstraints row1 = new RowConstraints();
@@ -133,7 +129,7 @@ public class CrezantUI extends Application {
 
 
         //add scrollpanes to the gridpane
-        root.add(scroller,1,0,3,2);
+        root.add(scroller,1,0,1,2);
         root.add(contacts, 0,1,1,3);
 
         Scene scene = new Scene(root, 750, 750); //Size of opened window.
