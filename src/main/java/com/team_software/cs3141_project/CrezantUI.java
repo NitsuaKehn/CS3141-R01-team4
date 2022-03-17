@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -22,17 +23,17 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 
 public class CrezantUI extends Application {
-        public static void main(String[] args) {
+    public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-
         stage.setTitle("Crezant");
 
         //creates the gridpane
@@ -62,6 +63,8 @@ public class CrezantUI extends Application {
 
         //Buttons
         Button optBtn = new Button("Options");
+        Button newConversation = new Button("+");
+        GridPane.setHalignment(newConversation, HPos.RIGHT); //move + to right side
 
         //On screen text
         Text contactName = new Text("Contact Name");
@@ -86,6 +89,7 @@ public class CrezantUI extends Application {
 
 
         root.add(optBtn, 0,0);
+        root.add(newConversation, 0, 0);
         root.add(textField1, 1,2, 3, 1);
 
         //makes messages vbox
@@ -115,6 +119,11 @@ public class CrezantUI extends Application {
         contacts.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.ALWAYS);//makes the side scrollbar show up
         contacts.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);//makes the bottom scroll bar hidden
         contacts.setPrefWidth(100);
+
+        //get convos
+        ArrayList<Button> Convos = new ArrayList<Button>();
+        //for loop that reads through each file in a folder
+        //and creates a button with the file name and its listener
 
 
         //file that holds the messages info
@@ -192,5 +201,11 @@ public class CrezantUI extends Application {
             e.printStackTrace();
 
         }
+    }
+
+    public void createConversation()
+    {
+        //this method is for the + button to use.
+        //should use a popup window.
     }
 }
