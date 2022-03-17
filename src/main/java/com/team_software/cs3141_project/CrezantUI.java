@@ -37,12 +37,12 @@ public class CrezantUI extends Application {
 
         //creates the gridpane
         GridPane root = new GridPane();
-        root.setGridLinesVisible(true);//use this for debugging/protyping
+        root.setGridLinesVisible(true);//use this for debugging/prototyping
         root.setHgap(5);
         root.setVgap(5);
         root.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
 
-        //makes and adds all of the cols to the gridpane with the apropriate spaceing
+        //makes and adds all of the cols to the gridpane with the appropriate spacing
         ColumnConstraints col1 = new ColumnConstraints();
         col1.setPercentWidth(25);
         ColumnConstraints col2 = new ColumnConstraints();
@@ -53,7 +53,7 @@ public class CrezantUI extends Application {
         col3.setPercentWidth(25);
         root.getColumnConstraints().addAll(col1,col2,col3,col4);
 
-        //makes and adds all of the rows to the gridpane with the apropriate spaceing
+        //makes and adds all of the rows to the gridpane with the appropriate spacing
         RowConstraints row1 = new RowConstraints();
         row1.setPercentHeight(5);
         RowConstraints row2 = new RowConstraints();
