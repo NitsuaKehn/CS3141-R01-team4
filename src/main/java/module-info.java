@@ -9,6 +9,7 @@ module com.team_software.cs3141_project {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires java.desktop;
 
     opens com.team_software.cs3141_project to javafx.fxml;
     exports com.team_software.cs3141_project;
