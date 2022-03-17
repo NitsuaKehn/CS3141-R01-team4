@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import javax.swing.JOptionPane;
 
-public class Networking {
+public class Server {
 
     public static void main(String[] args) throws IOException {
         String IP = JOptionPane.showInputDialog("Input Your IP Server: ");
