@@ -121,16 +121,33 @@ public class CrezantUI extends Application {
         contacts.setPrefWidth(100);
 
         //get convos
-        ArrayList<Button> Convos = new ArrayList<Button>();
+        ArrayList<Button> convoButton = new ArrayList<Button>();
+        //get convo directory
+        File directoryPath = new File("conversations");
+        String contents[] = directoryPath.list();
         //for loop that reads through each file in a folder
         //and creates a button with the file name and its listener
+        for(int i=0; i<contents.length; i++) {
+            String fileName = contents[i];
+            //create a simple button for now. spice things up later.
+            convoButton.add(new Button());
+            convoButton.get(i).setText(fileName.replace(".txt", "")); // set convo button name
+            // action event
+            convoButton.get(i).setOnAction(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent actionEvent) {
+                    //open conversation
+                    //file that holds the messages info
+                    File infile = new File("conversations/"+fileName);
 
+                    //empty out the message field
+                    messagesField.getChildren().clear();
 
-        //file that holds the messages info
-        File infile = new File("test_text_info.txt");
-
-        //sets up the pane with all the messages in it
-        displayText(infile, messagesField);
+                    //sets up the pane with all the messages in it
+                    displayText(infile, messagesField);
+                }
+            });
+            contactsField.getChildren().add(convoButton.get(i)); //add to ui
+        }
 
         //adds the vbox with the messages to the scroller
         scroller.setContent(messagesField);
@@ -208,4 +225,5 @@ public class CrezantUI extends Application {
         //this method is for the + button to use.
         //should use a popup window.
     }
+
 }
