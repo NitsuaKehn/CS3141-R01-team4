@@ -17,6 +17,7 @@ public class Server {
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         System.out.println(in.readLine());
+        System.out.println(clientSocket.getInetAddress());
 
         clientSocket.close();
 
