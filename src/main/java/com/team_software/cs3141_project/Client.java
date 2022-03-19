@@ -18,6 +18,7 @@ public class Client {
         Socket server = new Socket(serverIp, port);
         PrintWriter out = new PrintWriter(server.getOutputStream(), true);
         out.println("this is a test my user name is ______");
+        server.close();
 
     }
 }
