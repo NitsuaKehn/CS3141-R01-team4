@@ -9,15 +9,20 @@ import javax.swing.JOptionPane;
 
 public class Server {
 
+    private static int portNumber = 6066;
+
     public static void main(String[] args) throws IOException {
-        String IP = JOptionPane.showInputDialog("Input Your IP Server: ");
-        ServerSocket serverSock = new ServerSocket(6066);
-        Socket Sock = serverSock.accept();
-        DataOutputStream out = new DataOutputStream(Sock.getOutputStream());
-        out.writeUTF("i am fine, thank you");
-        DataInputStream in = new DataInputStream(Sock.getInputStream());
+
+        ServerSocket serverSocket = new ServerSocket(portNumber);
+        Socket clientSocket = serverSocket.accept();
+
+        DataInputStream in = new DataInputStream(clientSocket.getInputStream());
+
         System.out.println(in.readUTF());
-        Sock.close();
+
+        clientSocket.close();
+
+
     }
 
 
