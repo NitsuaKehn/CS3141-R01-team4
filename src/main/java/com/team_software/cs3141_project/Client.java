@@ -11,8 +11,9 @@ import javax.swing.JOptionPane;
 
 public class Client {
 
-    private static String serverIp = "141.219.196.118";
+    private static String serverIp = "141.219.194.213";
     private static int port = 6066;
+
 
     public static void main(String[] args)throws IOException {
 

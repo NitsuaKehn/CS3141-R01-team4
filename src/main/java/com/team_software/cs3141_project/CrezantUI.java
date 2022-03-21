@@ -165,7 +165,7 @@ public class CrezantUI extends Application {
 
     }
 
-    //gets the messages from the text file and adds them to the feild
+    //gets the messages from the text file and adds them to the field
     public void displayText(File file, Pane root)
     {
         //opens new scanner
