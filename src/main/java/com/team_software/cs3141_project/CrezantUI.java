@@ -64,6 +64,8 @@ public class CrezantUI extends Application {
         //Buttons
         Button optBtn = new Button("Options");
         Button newConversation = new Button("+");
+        Button sendMessage = new Button("Send");
+        GridPane.setHalignment(sendMessage, HPos.RIGHT);    //move send btn to right side
         GridPane.setHalignment(newConversation, HPos.RIGHT); //move + to right side
 
         //On screen text
@@ -91,6 +93,7 @@ public class CrezantUI extends Application {
         root.add(optBtn, 0,0);
         root.add(newConversation, 0, 0);
         root.add(textField1, 1,2, 3, 1);
+        root.add(sendMessage, 1, 2, 3, 1);
 
         //makes messages vbox
         VBox messagesField = new VBox();//vbox to hold sent and received messages
