@@ -15,7 +15,7 @@ public class Client {
     private static int port = 6066;
 
 
-    public static void main(String[] args)throws IOException {
+    public static void main(String[] args) throws IOException {
 
         Scanner myObj = new Scanner(System.in);
         String input;
@@ -29,7 +29,7 @@ public class Client {
             input = myObj.nextLine();
             if(input.equals("exit") || input.equals("Exit")) //Checks to see if exit is called from scanner input.
             {
-                out.println("Closing closing due to exit call"); //Propmpts server msg to close.
+                out.println("Closing closing due to exit call"); //Prompts server msg to close.
                 server.close();
                 break;
             }
