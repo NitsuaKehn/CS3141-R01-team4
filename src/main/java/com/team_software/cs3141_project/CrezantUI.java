@@ -186,6 +186,8 @@ public class CrezantUI extends Application {
 
                 //creates temp label
                 Label temp = new Label(in.nextLine());
+                //wraps the text in the label
+                temp.setWrapText(true);
                 //adds padding so the scroll bar doesn't cover words
                 temp.setPadding(new Insets(5,15,5,15));
                 //adds the background
