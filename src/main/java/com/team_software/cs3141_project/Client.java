@@ -4,7 +4,9 @@ import java.io.*;
 
 import java.util.Scanner;
 import java.net.Socket;
-import javax.swing.JOptionPane;
+import java.nio.charset.StandardCharsets;
+
+
 
 public class Client {
 
@@ -19,7 +21,7 @@ public class Client {
         String input;
         Socket server = new Socket(serverIp, port);
         PrintWriter out = new PrintWriter(server.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        DataInputStream in = new DataInputStream(server.getInputStream());
         //out.println("Austin has connected to the server");
         System.out.println("Input:  ");
 
@@ -41,6 +43,11 @@ public class Client {
                 //server.close();
                 break;
             }
+            // else if (input.equals("get"))
+            // {
+            //     if(in.)
+            //     System.out.println(in.readLine());
+            // }
             else
             {
                 out.println(input);
@@ -49,6 +56,22 @@ public class Client {
             }
         }
         System.out.println("sent messsage:");
-        System.out.println(in.readLine());
+        //System.out.println(in.readUTF());
+        int length = in.read();
+        length -= 48;
+        boolean end = false;
+        String dataString = "";
+        byte[] messageByte = new byte[1000];
+
+        while(!end)
+        {
+            int bytesRead = in.read(messageByte);
+            dataString += new String(messageByte, 0, bytesRead);
+            if (dataString.length() == length)
+            {
+                end = true;
+            }
+        }
+        System.out.println("MESSAGE: " + dataString);
     }
 }
