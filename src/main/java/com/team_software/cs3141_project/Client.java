@@ -25,7 +25,7 @@ public class Client {
 
         while(true)
         {
-            System.out.println(in.readLine());
+            //System.out.println(in.readLine());
             input = myObj.nextLine();
             if(input.equals("exit") || input.equals("Exit"))
             {
@@ -37,6 +37,7 @@ public class Client {
             else
             {
                 out.println(input);
+                out.flush();
 
             }
         }
