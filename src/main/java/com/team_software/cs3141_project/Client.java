@@ -3,6 +3,7 @@ package com.team_software.cs3141_project;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
+import java.util.Scanner;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -16,11 +17,26 @@ public class Client {
 
     public static void main(String[] args)throws IOException {
 
+        Scanner myObj = new Scanner(System.in);
+        String input;
         Socket server = new Socket(serverIp, port);
         PrintWriter out = new PrintWriter(server.getOutputStream(), true);
-        out.println("this is a test my user name is ______");
+        out.println("Austin has connected to the server");
+        System.out.println("Input:  ");
 
-        server.close();
-
+        while(true)
+        {
+            input = myObj.nextLine();
+            if(input.equals("exit") || input.equals("Exit"))
+            {
+                out.println("Closing closing due to exit call");
+                server.close();
+                break;
+            }
+            else
+            {
+                out.println(input);
+            }
+        }
     }
 }
