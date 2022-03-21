@@ -25,7 +25,13 @@ public class Client {
 
         while(true)
         {
-            //System.out.println(in.readLine());
+            String inStr = null;
+            inStr = in.readLine();
+            if(inStr != null)
+            {
+                System.out.println(inStr);
+            }
+
             input = myObj.nextLine();
             if(input.equals("exit") || input.equals("Exit"))
             {
