@@ -25,19 +25,20 @@ public class Client {
 
         while(true)
         {
-            String inStr = null;
-            inStr = in.readLine();
-            if(inStr != null)
-            {
-                System.out.println(inStr);
-            }
+//            String inStr = null;
+//            inStr = in.readLine();
+//            if(inStr != null)
+//            {
+//                System.out.println(inStr);
+//                break;
+//            }
 
             input = myObj.nextLine();
             if(input.equals("exit") || input.equals("Exit"))
             {
-                out.println("Closing closing due to exit call");
+                //out.println("Closing closing due to exit call");
 
-                server.close();
+                //server.close();
                 break;
             }
             else
@@ -47,5 +48,7 @@ public class Client {
 
             }
         }
+        System.out.println("sent messsage:");
+        System.out.println(in.readLine());
     }
 }
