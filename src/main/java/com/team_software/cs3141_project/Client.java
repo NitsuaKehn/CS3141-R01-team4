@@ -13,6 +13,7 @@ public class Client {
     private static String serverIp = "141.219.196.118";
     private static int port = 6066;
 
+
     public static void main(String[] args)throws IOException {
 
         Socket server = new Socket(serverIp, port);
