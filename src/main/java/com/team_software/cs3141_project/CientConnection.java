@@ -26,7 +26,6 @@ public class CientConnection implements Runnable {
 
 
         this.in = new BufferedReader( new InputStreamReader(socket.getInputStream()));
-        //this.in = new DataInputStream(socket.getInputStream());
 
     }
 
@@ -74,34 +73,16 @@ public class CientConnection implements Runnable {
                     default:
                         //means that the socket has been close on client side so close it here too
                         System.out.println("default case");
-//                        try {
-//                            socket.close();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
+                        try {
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-//            //checks in the input is null
-//            if(nextEvent != null)
-//            {
-//                //not null that means we have a good message in the buffer
-//                System.out.println(nextEvent);
-//            }
-//            else
-//            {
-//                //means that the socket has been close on client side so close it here too
-//                try {
-//                    socket.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-
-
 
         }
     }

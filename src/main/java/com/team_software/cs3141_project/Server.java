@@ -11,7 +11,7 @@ public class Server {
 
     private static int portNumber = 6066;//default port number
 
-    private ArrayList<User> usersList = new ArrayList<>();
+    private ArrayList<User> usersList = new ArrayList<>();//stores the users
 
     private Executor executor = Executors.newCachedThreadPool();//used to run the different connections
 
@@ -54,11 +54,13 @@ public class Server {
         }
     }
 
+    //sets a users status to offline
     public void setUserOffline(String userName)
     {
         getUserFromList(userName).setOnline(false);
     }
 
+    //sends a mesage to a the provided user
     public void sendMessage(String userName, String message) throws IOException
     {
         User messageRecpiant = getUserFromList(userName);

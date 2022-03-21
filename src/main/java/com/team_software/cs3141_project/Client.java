@@ -4,8 +4,6 @@ import java.io.*;
 
 import java.util.Scanner;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-
 
 
 public class Client {
@@ -22,32 +20,17 @@ public class Client {
         Socket server = new Socket(serverIp, port);
         PrintWriter out = new PrintWriter(server.getOutputStream(), true);
         DataInputStream in = new DataInputStream(server.getInputStream());
-        //out.println("Austin has connected to the server");
         System.out.println("Input:  ");
 
         while(true)
         {
-//            String inStr = null;
-//            inStr = in.readLine();
-//            if(inStr != null)
-//            {
-//                System.out.println(inStr);
-//                break;
-//            }
 
             input = myObj.nextLine();
             if(input.equals("exit") || input.equals("Exit"))
             {
-                //out.println("Closing closing due to exit call");
-
-                //server.close();
                 break;
             }
-            // else if (input.equals("get"))
-            // {
-            //     if(in.)
-            //     System.out.println(in.readLine());
-            // }
+
             else
             {
                 out.println(input);
@@ -55,10 +38,12 @@ public class Client {
 
             }
         }
-        System.out.println("sent messsage:");
-        //System.out.println(in.readUTF());
-        int length = in.read();
+
+        //have to read in data this way since tcp you never know if the data with all be sent at once
+        int length = in.read();//first byte is how long the string is
         length -= 48;
+
+        //loops until the whole string is read in then prints it out
         boolean end = false;
         String dataString = "";
         byte[] messageByte = new byte[1000];
