@@ -24,18 +24,18 @@ public class Client {
         out.println("Austin has connected to the server");
         System.out.println("Input:  ");
 
-        while(true)
+        while(true) //Infinite loop
         {
             input = myObj.nextLine();
-            if(input.equals("exit") || input.equals("Exit"))
+            if(input.equals("exit") || input.equals("Exit")) //Checks to see if exit is called from scanner input.
             {
-                out.println("Closing closing due to exit call");
+                out.println("Closing closing due to exit call"); //Propmpts server msg to close.
                 server.close();
                 break;
             }
             else
             {
-                out.println(input);
+                out.println(input); //Prints input to server.
             }
         }
     }
