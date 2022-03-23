@@ -191,9 +191,9 @@ public class CrezantUI extends Application {
                 //adds padding so the scroll bar doesn't cover words
                 temp.setPadding(new Insets(5,15,5,15));
                 //adds the background
-                temp.setBackground(new Background(new BackgroundFill(Paint.valueOf("#FBFAF5"), new CornerRadii(20), new Insets(0,10,0,10))));
+                temp.setBackground(new Background(new BackgroundFill(Paint.valueOf("#dbd8cc"), new CornerRadii(20), new Insets(0,10,0,10))));
                 //sets the text color
-                temp.setTextFill(Paint.valueOf("#006FFF"));
+                temp.setTextFill(Paint.valueOf("#003982"));
 
                 //creates an hbox to store the label so we can set the alignment
                 HBox hbox = new HBox();
