@@ -209,10 +209,13 @@ public class CrezantUI extends Application {
                 if(!leftAlign)
                 {
                     hbox.setAlignment(Pos.BASELINE_RIGHT);
+                    temp.setBackground(new Background(new BackgroundFill(Paint.valueOf("#e0e0e0"), new CornerRadii(20), new Insets(0,10,0,10))));
                 }
                 else
                 {
                     hbox.setAlignment(Pos.BASELINE_LEFT);
+                    temp.setBackground(new Background(new BackgroundFill(Paint.valueOf("#bea8e0"), new CornerRadii(20), new Insets(0,10,0,10))));
+
                 }
 
                 //adds the hbox to the given pane
