@@ -17,6 +17,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -194,8 +196,9 @@ public class CrezantUI extends Application {
                 temp.setWrapText(true);
                 //adds padding so the scroll bar doesn't cover words
                 temp.setPadding(new Insets(5,15,5,15));
-                //adds the background
-
+                //set the font to ubuntu-medium
+                //temp.setFont(Font.font("Comic Sans MS", FontWeight.SEMI_BOLD, 12));
+                temp.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
                 //sets the text color
                 temp.setTextFill(Paint.valueOf("#1f1f1f"));
 
