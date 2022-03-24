@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -171,6 +172,7 @@ public class CrezantUI extends Application {
         root.add(contacts, 0,1,1,3);
 
         Scene scene = new Scene(root, 750, 750); //Size of opened window.
+        stage.getIcons().add(new Image("file:src/main/resources/logo/CrezantLogo.png"));
         stage.setScene(scene);
         stage.show();
 
