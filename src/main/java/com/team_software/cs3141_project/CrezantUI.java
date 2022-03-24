@@ -125,6 +125,11 @@ public class CrezantUI extends Application {
         contacts.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);//makes the bottom scroll bar hidden
         contacts.setPrefWidth(100);
 
+        //Set button fonts
+        optBtn.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+        newConversation.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+        sendMessage.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+
         //get convos
         ArrayList<Button> convoButton = new ArrayList<Button>();
         //get convo directory
@@ -137,6 +142,8 @@ public class CrezantUI extends Application {
             //create a simple button for now. spice things up later.
             convoButton.add(new Button());
             convoButton.get(i).setText(fileName.replace(".txt", "")); // set convo button name
+            convoButton.get(i).setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+
             // action event
             convoButton.get(i).setOnAction(new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent actionEvent) {
