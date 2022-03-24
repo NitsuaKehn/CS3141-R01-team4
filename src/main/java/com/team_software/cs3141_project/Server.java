@@ -13,7 +13,7 @@ public class Server {
 
     private static int portNumber = 6066;//default port number
 
-    private static File contacts = new File("ContacrtsServer");
+    private static File contacts = new File("ContactsServer");
 
     public String findContact(String UserID)
     {
@@ -58,21 +58,32 @@ public class Server {
             {
                 PrintWriter out = new PrintWriter(contacts);
 
-                out.println(clientID + clientSocket.getInetAddress());
+                out.println(clientID + " " + clientSocket.getInetAddress());
+
+                System.out.println(clientID + clientSocket.getInetAddress());
+
+                out.close();
             }
 
             String recipient = input.readLine();
 
-            if(server.findContact(clientID) == null)
+            if(server.findContact(recipient) == null)
             {
+                System.out.println("in 2nd if");
+
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
 
                 out.write(server.findContact(recipient));
+
+                System.out.println(server.findContact(recipient));
+
+                out.flush();
             }
             else
             {
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
                 out.write("That user doesn't exist");
+
             }
 
 
