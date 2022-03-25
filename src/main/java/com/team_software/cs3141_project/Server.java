@@ -19,6 +19,8 @@ public class Server {
     {
         try(Scanner in = new Scanner(contacts)){
 
+            in.useDelimiter(",|\\n");
+
             while(in.hasNext())
             {
                 if(in.next().equals(UserID))
@@ -58,7 +60,7 @@ public class Server {
             {
                 PrintWriter out = new PrintWriter(contacts);
 
-                out.println(clientID + " " + clientSocket.getInetAddress());
+                out.println(clientID + "," + clientSocket.getInetAddress());
 
                 System.out.println(clientID + clientSocket.getInetAddress());
 
@@ -67,7 +69,7 @@ public class Server {
 
             String recipient = input.readLine();
 
-            if(server.findContact(recipient) == null)
+            if(server.findContact(recipient) != null)
             {
                 System.out.println("in 2nd if");
 
