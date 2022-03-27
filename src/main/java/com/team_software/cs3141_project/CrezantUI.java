@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -21,6 +22,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -106,7 +108,7 @@ public class CrezantUI extends Application {
 
         //makes contacts vbox
         VBox contactsField = new VBox();//vbox to hold sent and received messages
-        contactsField.setSpacing(10);
+        contactsField.setSpacing(3);
         contactsField.prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
         contactsField.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));
 
@@ -140,10 +142,29 @@ public class CrezantUI extends Application {
         //and creates a button with the file name and its listener
         for(int i=0; i<contents.length; i++) {
             String fileName = contents[i];
-            //create a simple button for now. spice things up later.
+            //create a cool button
             convoButton.add(new Button());
             convoButton.get(i).setText(fileName.replace(".txt", "")); // set convo button name
             convoButton.get(i).setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+            convoButton.get(i).setTextAlignment(TextAlignment.CENTER);
+            convoButton.get(i).textFillProperty().set(Paint.valueOf("white"));
+            convoButton.get(i).setWrapText(true);
+            convoButton.get(i).setMaxWidth(contactsField.getMaxWidth());
+            convoButton.get(i).setMinHeight(contactsField.getMinWidth());
+            convoButton.get(i).setPrefHeight(45);
+            convoButton.get(i).prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
+            convoButton.get(i).setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
+            int finalI = i;
+            convoButton.get(i).setOnMouseEntered(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent mouseEvent) {
+                    convoButton.get(finalI).setBackground(new Background(new BackgroundFill(Paint.valueOf("#bea8e0"), null, null)));//sets the background color
+                }
+            });
+            convoButton.get(i).setOnMouseExited(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent mouseEvent) {
+                    convoButton.get(finalI).setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
+                }
+            });
 
             // action event
             convoButton.get(i).setOnAction(new EventHandler<ActionEvent>() {
@@ -172,7 +193,10 @@ public class CrezantUI extends Application {
         root.add(contacts, 0,1,1,3);
 
         Scene scene = new Scene(root, 750, 750); //Size of opened window.
+
         stage.getIcons().add(new Image("file:src/main/resources/logo/CrezantLogo.png"));
+        stage.setMinWidth(550);
+        stage.setMinHeight(450);
         stage.setScene(scene);
         stage.show();
 
