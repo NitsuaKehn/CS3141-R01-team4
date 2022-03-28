@@ -15,21 +15,25 @@ public class Server {
 
     private static File contacts = new File("ContactsServer");
 
-    public String findContact(String UserID)
+    private Executor executor = Executors.newCachedThreadPool();
+
+    public String getUserIP(String UserID)
     {
         try(Scanner in = new Scanner(contacts)){
+
 
             in.useDelimiter(",|\\n");
 
             while(in.hasNext())
             {
+
                 if(in.next().equals(UserID))
                 {
                     return in.next();
                 }
                 else
                 {
-                    in.next();
+                   in.next();
                 }
             }
 
@@ -38,6 +42,51 @@ public class Server {
         }
 
         return null;
+    }
+
+    public void updateContact(String UserID, Socket client)
+    {
+        String newContacts = "";
+
+        try(Scanner in = new Scanner(contacts)){
+
+
+            in.useDelimiter(",|\\n");
+
+            while(in.hasNext())
+            {
+                String userName = in.next();
+                if(userName.equals(UserID))
+                {
+                    in.next();
+                }
+                else
+                {
+                    newContacts += userName + " " + in.next() + "\n";
+                }
+            }
+
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        try (PrintWriter out = new PrintWriter(contacts)){
+
+
+            out.write(newContacts);
+            out.write(UserID + " " + client.getInetAddress() + "\n");
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void handleConnection(Socket client) throws IOException {
+        ClientConnection newClient = new ClientConnection(this, client);
+        this.executor.execute(newClient);
     }
 
     public static void main(String[] args) throws IOException {
@@ -52,44 +101,21 @@ public class Server {
         {
             //listens until it gets new client socket
             Socket clientSocket = serverSocket.accept();
+            System.out.println("Server connected to: " + clientSocket.getInetAddress());
+
             BufferedReader input = new BufferedReader( new InputStreamReader(clientSocket.getInputStream()));
 
             String clientID = input.readLine();
 
-            if(server.findContact(clientID) == null)
-            {
-                PrintWriter out = new PrintWriter(contacts);
+            server.updateContact(clientID, clientSocket);
+            server.handleConnection(clientSocket);
 
-                out.println(clientID + "," + clientSocket.getInetAddress());
 
-                System.out.println(clientID + clientSocket.getInetAddress());
-
-                out.close();
-            }
-
-            String recipient = input.readLine();
-
-            if(server.findContact(recipient) != null)
-            {
-                System.out.println("in 2nd if");
-
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
-
-                out.write(server.findContact(recipient));
-
-                System.out.println(server.findContact(recipient));
-
-                out.flush();
-            }
-            else
-            {
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
-                out.write("That user doesn't exist");
-
-            }
 
 
         }
+
+
 
     }
 
