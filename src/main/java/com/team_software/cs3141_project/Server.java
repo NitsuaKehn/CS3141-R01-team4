@@ -51,7 +51,7 @@ public class Server {
         try(Scanner in = new Scanner(contacts)){
 
 
-            in.useDelimiter(",|\\n");
+            in.useDelimiter(",|\n");
 
             while(in.hasNext())
             {
@@ -62,7 +62,7 @@ public class Server {
                 }
                 else
                 {
-                    newContacts += userName + " " + in.next() + "\n";
+                    newContacts += userName + "," + in.next() + "\n";
                 }
             }
 
@@ -74,7 +74,7 @@ public class Server {
 
 
             out.write(newContacts);
-            out.write(UserID + " " + client.getInetAddress() + "\n");
+            out.write(UserID + "," + client.getInetAddress() + "\n");
 
 
         } catch (FileNotFoundException e) {

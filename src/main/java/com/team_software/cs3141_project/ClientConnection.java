@@ -1,9 +1,6 @@
 package com.team_software.cs3141_project;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 
@@ -13,7 +10,7 @@ public class ClientConnection implements Runnable {
 
     private Socket socket;
     private PrintWriter out;
-    private DataInputStream in;
+    private BufferedReader in;
 
     protected ClientConnection(Server parent, Socket socket) throws IOException {
 
@@ -22,20 +19,29 @@ public class ClientConnection implements Runnable {
         this.socket = socket;
 
         this.out    = new PrintWriter(socket.getOutputStream());;
-        this.in     = new DataInputStream(socket.getInputStream());
+        this.in     = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
     @Override
     public void run() {
         while(!this.socket.isClosed()) {
             try {
-                String UserID = this.in.readUTF();
+                String UserID = this.in.readLine();
 
                 String recipiantIP = parent.getUserIP(UserID);
 
                 out.println(recipiantIP);
 
+                System.out.println("recpiant ip is " + recipiantIP);
+
                 out.flush();
+
+                if(UserID == null)
+                {
+                    socket.close();
+                }
+
+
 
 
             } catch (IOException e) {}
