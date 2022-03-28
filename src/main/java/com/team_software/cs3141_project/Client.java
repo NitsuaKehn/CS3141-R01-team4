@@ -45,10 +45,11 @@ public class Client {
         Scanner serverIn = new Scanner(server.getInputStream());
         System.out.println("ip of user:");
 
+        String endIp = serverIn.nextLine();
 
-        System.out.println("input is " + serverIn.nextLine());
+        System.out.println("input is " + endIp);
 
-
+        //Socket end = new Socket(endIp, 6066);
 
 
     }
