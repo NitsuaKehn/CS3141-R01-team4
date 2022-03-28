@@ -3,6 +3,7 @@ package com.team_software.cs3141_project;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 
@@ -11,7 +12,7 @@ public class ClientConnection implements Runnable {
     private Server parent;
 
     private Socket socket;
-    private DataOutputStream out;
+    private PrintWriter out;
     private DataInputStream in;
 
     protected ClientConnection(Server parent, Socket socket) throws IOException {
@@ -20,7 +21,7 @@ public class ClientConnection implements Runnable {
         this.parent = parent;
         this.socket = socket;
 
-        this.out    = new DataOutputStream(socket.getOutputStream());;
+        this.out    = new PrintWriter(socket.getOutputStream());;
         this.in     = new DataInputStream(socket.getInputStream());
     }
 
@@ -32,7 +33,7 @@ public class ClientConnection implements Runnable {
 
                 String recipiantIP = parent.getUserIP(UserID);
 
-                out.writeBytes(recipiantIP);
+                out.println(recipiantIP);
 
                 out.flush();
 
