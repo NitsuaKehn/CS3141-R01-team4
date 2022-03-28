@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class Client {
 
-    private static String serverIp = "141.219.231.100";
+    private static String serverIp = "141.219.196.118";
     private String peerIp;
     private static int port = 6066;
 
@@ -42,7 +42,14 @@ public class Client {
             }
         }
 
-        System.out.println(in.nextLine());
+        Scanner serverIn = new Scanner(server.getInputStream());
+        System.out.println("ip of user:");
+
+
+        System.out.println("input is " + serverIn.nextLine());
+
+
+
 
     }
 }
