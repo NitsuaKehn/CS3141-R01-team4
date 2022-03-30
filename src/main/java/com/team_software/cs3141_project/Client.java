@@ -63,7 +63,7 @@ public class Client {
     {
         File file = new File(peerID + ".txt");
         try (PrintWriter out = new PrintWriter(file)){
-            out.append()
+            out.append("R " + message);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
