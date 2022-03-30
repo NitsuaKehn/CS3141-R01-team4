@@ -3,8 +3,6 @@ package com.team_software.cs3141_project;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.PrimitiveIterator;
 import java.util.Scanner;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -85,7 +83,7 @@ public class Server {
     }
 
     public void handleConnection(Socket client) throws IOException {
-        ClientConnection newClient = new ClientConnection(this, client);
+        ServerConnection newClient = new ServerConnection(this, client);
         this.executor.execute(newClient);
     }
 
