@@ -181,6 +181,7 @@ public class CrezantUI extends Application {
                 }
             });
             contactsField.getChildren().add(convoButton.get(i)); //add to ui
+
         }
 
         //adds the vbox with the messages to the scroller

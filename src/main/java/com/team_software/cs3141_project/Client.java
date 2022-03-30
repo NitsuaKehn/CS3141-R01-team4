@@ -4,52 +4,77 @@ import java.io.*;
 
 import java.util.Scanner;
 import java.net.Socket;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 public class Client {
 
     private static String serverIp = "141.219.196.118";
-    private String peerIp;
     private static int port = 6066;
 
-    static Scanner myObj = new Scanner(System.in);
+
     static String input;
     static Socket server;
     static PrintWriter out;
-    static DataInputStream in;
+    static Scanner in;
 
+    private Executor executor = Executors.newCachedThreadPool();
+
+    public String getIP(String PeerID)
+    {
+        out.println(PeerID);
+        return in.nextLine();
+    }
+
+    public void startUp(String UserID) throws IOException {
+        server = new Socket(serverIp, port);
+
+        in = new Scanner(server.getInputStream());
+
+        out = new PrintWriter(server.getOutputStream());
+
+
+        out.println(UserID);
+        out.flush();
+
+        File directoryPath = new File("conversations");
+        String contents[] = directoryPath.list();
+
+        for(int i = 0; i < contents.length; i++)
+        {
+            String peerID = contents[i].replace(".txt", "");
+
+            String peerIP = getIP(peerID);
+
+            Socket peerSocket = new Socket(peerIP, port);
+            System.out.println("client connected to peer at " + peerIP);
+
+            this.handleConnection(peerSocket);
+        }
+    }
+
+    public void handleConnection(Socket peer) throws IOException {
+        ClientConnection newPeer = new ClientConnection(this, peer);
+        this.executor.execute(newPeer);
+    }
+
+    public void getMessage(String peerID, String message)
+    {
+
+    }
 
     public static void main(String[] args) throws IOException {
 
-        Socket server = new Socket(serverIp, port);
+        Client client = new Client();
 
-        Scanner in = new Scanner(System.in);
+        Scanner systemIn = new Scanner(System.in);
 
-        PrintWriter out = new PrintWriter(server.getOutputStream());
+        System.out.println("what is your username?");
 
-        while(true)
-        {
-            input = myObj.nextLine();
-            if(input.equals("exit") || input.equals("Exit"))
-            {
-                break;
-            }
 
-            else
-            {
-                out.println(input);
-                out.flush();
-            }
-        }
 
-        Scanner serverIn = new Scanner(server.getInputStream());
-        System.out.println("ip of user:");
 
-        String endIp = serverIn.nextLine();
-
-        System.out.println("input is " + endIp);
-
-        //Socket end = new Socket(endIp, 6066);
 
 
     }
