@@ -138,6 +138,7 @@ public class CrezantUI extends Application {
         //get convo directory
         File directoryPath = new File("conversations");
         String contents[] = directoryPath.list();
+
         //for loop that reads through each file in a folder
         //and creates a button with the file name and its listener
         for(int i=0; i<contents.length; i++) {
@@ -200,6 +201,16 @@ public class CrezantUI extends Application {
         stage.setScene(scene);
         stage.show();
 
+
+    }
+
+    /**
+     * Adds sent message to the specified text file
+     * Then call displayText to show texts in the field
+     * Then send message over network
+     */
+    public void sendMessage()
+    {
 
     }
 
