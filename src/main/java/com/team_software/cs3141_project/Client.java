@@ -61,7 +61,23 @@ public class Client {
 
     public void getMessage(String peerID, String message)
     {
+        File file = new File(peerID + ".txt");
+        try (PrintWriter out = new PrintWriter(file)){
+            out.append()
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void sendMessage(String peerID, String message) throws IOException {
+        String peerIP = getIP(peerID);
+
+        Socket peerSocket = new Socket(peerIP, port);
+
+        PrintWriter out = new PrintWriter(peerSocket.getOutputStream());
+
+        out.println(peerID + " " + message);
+        out.close();
     }
 
     public static void main(String[] args) throws IOException {
