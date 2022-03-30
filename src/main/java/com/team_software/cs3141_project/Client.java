@@ -72,6 +72,8 @@ public class Client {
 
         System.out.println("what is your username?");
 
+        client.startUp(systemIn.nextLine());
+
 
 
 
