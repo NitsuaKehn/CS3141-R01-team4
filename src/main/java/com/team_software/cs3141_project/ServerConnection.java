@@ -27,11 +27,11 @@ public class ServerConnection implements Runnable {
             try {
                 String UserID = this.in.readLine();
 
-                String recipiantIP = parent.getUserIP(UserID);
+                String recipientIP = parent.getUserIP(UserID);
 
-                out.println(recipiantIP);
+                out.println(recipientIP);
 
-                System.out.println("recpiant ip is " + recipiantIP);
+                System.out.println("recipient ip is " + recipientIP);
 
                 out.flush();
 

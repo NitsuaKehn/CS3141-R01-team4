@@ -25,9 +25,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
@@ -138,6 +136,7 @@ public class CrezantUI extends Application {
         //get convo directory
         File directoryPath = new File("conversations");
         String contents[] = directoryPath.list();
+
         //for loop that reads through each file in a folder
         //and creates a button with the file name and its listener
         for(int i=0; i<contents.length; i++) {
@@ -200,6 +199,22 @@ public class CrezantUI extends Application {
         stage.setMinHeight(450);
         stage.setScene(scene);
         stage.show();
+
+
+    }
+
+    /**
+     * Adds sent message to the specified text file
+     * Then call displayText to show texts in the field
+     * Then call method from client to send message over network?
+     */
+    public void sendMessage(String message, File file) throws IOException
+    {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        writer.append("\nS ");
+        writer.append(message);
+
+        writer.close();
 
 
     }
