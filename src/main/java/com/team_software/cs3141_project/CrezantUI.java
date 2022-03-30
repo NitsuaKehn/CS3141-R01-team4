@@ -25,9 +25,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
@@ -207,11 +205,15 @@ public class CrezantUI extends Application {
     /**
      * Adds sent message to the specified text file
      * Then call displayText to show texts in the field
-     * Then send message over network
+     * Then call method from client to send message over network?
      */
-    public void sendMessage()
+    public void sendMessage(String message, File file) throws IOException
     {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        writer.append('\n');
+        writer.append(message);
 
+        writer.close();
     }
 
     /**
