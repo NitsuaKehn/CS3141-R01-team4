@@ -31,11 +31,11 @@ public class ClientConnection implements  Runnable{
 
                 String[] splitMessage = message.split(" ", 1);
 
-                out.println(recipiantIP);
-
-                System.out.println("recpiant ip is " + recipiantIP);
-
-                out.flush();
+//                out.println(recipiantIP);
+//
+//                System.out.println("recpiant ip is " + recipiantIP);
+//
+//                out.flush();
 
                 if(message == null)
                 {
