@@ -210,10 +210,12 @@ public class CrezantUI extends Application {
     public void sendMessage(String message, File file) throws IOException
     {
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.append('\n');
+        writer.append("\nS ");
         writer.append(message);
 
         writer.close();
+
+
     }
 
     /**
