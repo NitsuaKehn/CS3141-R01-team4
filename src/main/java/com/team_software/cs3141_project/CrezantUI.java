@@ -224,6 +224,8 @@ public class CrezantUI extends Application {
 
         //Update texts with display text
         displayText(file, root);
+
+
     }
 
     /**
