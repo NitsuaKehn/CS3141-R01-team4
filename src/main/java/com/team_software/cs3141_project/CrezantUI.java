@@ -204,19 +204,26 @@ public class CrezantUI extends Application {
     }
 
     /**
-     * Adds sent message to the specified text file
-     * Then call displayText to show texts in the field
+     * When user clicks sends or presses enter in text field,
+     * message is written to the specified text file
+     * Then call displayText to update texts in the field
      * Then call method from client to send message over network?
+     * @param message
+     * @param file
+     * @param root
+     * @throws IOException
      */
-    public void sendMessage(String message, File file) throws IOException
+    public void sendMessage(String message, File file, Pane root) throws IOException
     {
+        //Write message to file
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         writer.append("\nS ");
         writer.append(message);
 
         writer.close();
 
-
+        //Update texts with display text
+        displayText(file, root);
     }
 
     /**
