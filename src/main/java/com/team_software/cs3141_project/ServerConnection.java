@@ -41,9 +41,6 @@ public class ServerConnection implements Runnable {
                     socket.close();
                 }
 
-
-
-
             } catch (IOException e) {}
         }
     }

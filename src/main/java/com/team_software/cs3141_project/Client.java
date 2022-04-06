@@ -28,7 +28,7 @@ public class Client {
     {
         out.println(PeerID);
         out.flush();
-        return in.nextLine();
+        return in.next();
     }
 
     public void startUp(String UserID) throws IOException {

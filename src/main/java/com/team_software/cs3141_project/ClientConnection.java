@@ -20,7 +20,7 @@ public class ClientConnection implements  Runnable{
         this.parent = parent;
         this.socket = socket;
 
-        this.out = new PrintWriter(socket.getOutputStream());;
+        this.out = new PrintWriter(socket.getOutputStream());
         this.in = new Scanner(socket.getInputStream());
     }
 
