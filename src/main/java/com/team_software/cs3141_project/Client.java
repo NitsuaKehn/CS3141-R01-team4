@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 
 public class Client {
 
-    private static String serverIp = "141.219.196.118";
+    private static String serverIp = "141.219.194.213";
     private static int port = 6066;
 
 
@@ -61,20 +61,26 @@ public class Client {
     {
         String buffer = "";
         try{
-            File contactFile = new File("conversations/" + userID + ".txt");
+            File contactFile = new File("conversations\\" + userID + ".txt");
             Scanner fileIn = new Scanner(contactFile);
-            PrintWriter fileOut = new PrintWriter(contactFile);
 
-            fileIn.nextLine();
+
+            fileIn.next();
 
             while(fileIn.hasNextLine())
             {
                 buffer += fileIn.nextLine() + "\n";
             }
-            out.println(IP);
-            out.print(buffer);
 
-        } catch (Exception e)
+            FileWriter fileOut = new FileWriter(contactFile);
+
+            fileOut.append(IP);
+            fileOut.append(buffer);
+            fileOut.close();
+            fileIn.close();
+
+        }
+        catch(Exception e)
         {
             e.printStackTrace();
         }
