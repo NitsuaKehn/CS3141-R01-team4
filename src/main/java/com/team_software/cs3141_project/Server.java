@@ -44,7 +44,7 @@ public class Server {
 
     public void updateContact(String UserID, Socket client)
     {
-        String newContacts = "";
+        String otherContacts = "";
 
         try(Scanner in = new Scanner(contacts)){
 
@@ -60,9 +60,10 @@ public class Server {
                 }
                 else
                 {
-                    newContacts += userName + "," + in.next() + "\n";
+                    otherContacts += userName + "," + in.next() + "\n";
                 }
             }
+
 
         }catch(FileNotFoundException e){
             e.printStackTrace();
@@ -71,8 +72,8 @@ public class Server {
         try (PrintWriter out = new PrintWriter(contacts)){
 
 
-            out.write(newContacts);
-            out.write(UserID + "," + client.getInetAddress() + "\n");
+            out.println(otherContacts + UserID + "," + client.getInetAddress());
+            out.flush();
 
 
         } catch (FileNotFoundException e) {

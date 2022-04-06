@@ -2,6 +2,7 @@ package com.team_software.cs3141_project;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ServerConnection implements Runnable {
 
@@ -9,7 +10,7 @@ public class ServerConnection implements Runnable {
 
     private Socket socket;
     private PrintWriter out;
-    private BufferedReader in;
+    private Scanner in;
 
     protected ServerConnection(Server parent, Socket socket) throws IOException {
 
@@ -18,14 +19,14 @@ public class ServerConnection implements Runnable {
         this.socket = socket;
 
         this.out    = new PrintWriter(socket.getOutputStream());;
-        this.in     = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        this.in     = new Scanner(socket.getInputStream());
     }
 
     @Override
     public void run() {
         while(!this.socket.isClosed()) {
             try {
-                String UserID = this.in.readLine();
+                String UserID = this.in.nextLine();
 
                 String recipientIP = parent.getUserIP(UserID);
 

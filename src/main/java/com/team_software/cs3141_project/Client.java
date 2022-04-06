@@ -2,6 +2,7 @@ package com.team_software.cs3141_project;
 
 import java.io.*;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.net.Socket;
 import java.util.concurrent.Executor;
@@ -19,12 +20,14 @@ public class Client {
     static PrintWriter out;
     static Scanner in;
     static String userName = "PC";
+    private ArrayList<String> peerIPs = new ArrayList<>();
 
     private Executor executor = Executors.newCachedThreadPool();
 
     public String getIP(String PeerID)
     {
         out.println(PeerID);
+        out.flush();
         return in.nextLine();
     }
 
@@ -48,16 +51,15 @@ public class Client {
 
             String peerIP = getIP(peerID);
 
-            Socket peerSocket = new Socket(peerIP, port);
-            System.out.println("client connected to peer at " + peerIP);
+            peerIPs.add(peerIP);
+            System.out.println("client added to peer at " + peerIP + "to peerIPs list");
 
-            this.handleConnection(peerSocket);
         }
     }
 
-    public void handleConnection(Socket peer) throws IOException {
-        ClientConnection newPeer = new ClientConnection(this, peer);
-        this.executor.execute(newPeer);
+    public void startListener(){
+        ClientListener newListener = new ClientListener(this);
+        this.executor.execute(newListener);
     }
 
     public void getMessage(String peerID, String message)
@@ -88,6 +90,9 @@ public class Client {
         Scanner systemIn = new Scanner(System.in);
 
         System.out.println("what is your username?");
+
+        client.startListener();
+
 
         client.startUp(systemIn.nextLine());
 
