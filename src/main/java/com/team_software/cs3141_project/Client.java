@@ -102,14 +102,20 @@ public class Client {
     }
 
     public void sendMessage(String peerID, String message) throws IOException {
-        String peerIP = getIP(peerID);
+
+
+        File file = new File("conversation\\" + peerID + ".txt");
+        Scanner fileIn = new Scanner(file);
+
+        String peerIP = fileIn.next();
 
         Socket peerSocket = new Socket(peerIP, port);
 
-        PrintWriter out = new PrintWriter(peerSocket.getOutputStream());
+        PrintWriter peerOut = new PrintWriter(peerSocket.getOutputStream());
 
-        out.println(peerID + " " + message);
-        out.close();
+        peerOut.println(message);
+        peerOut.flush();
+
     }
 
     public static void main(String[] args) throws IOException {
