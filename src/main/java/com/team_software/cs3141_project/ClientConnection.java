@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ClientConnection implements  Runnable{
     private Client parent;
 
     private Socket socket;
     private PrintWriter out;
-    private BufferedReader in;
+    private Scanner in;
 
     protected ClientConnection(Client parent, Socket socket) throws IOException {
 
@@ -20,14 +21,14 @@ public class ClientConnection implements  Runnable{
         this.socket = socket;
 
         this.out = new PrintWriter(socket.getOutputStream());;
-        this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        this.in = new Scanner(socket.getInputStream());
     }
 
     @Override
     public void run() {
         while(!this.socket.isClosed()) {
             try {
-                String message = this.in.readLine();
+                String message = this.in.nextLine();
 
                 String[] splitMessage = message.split(" ", 1);
 

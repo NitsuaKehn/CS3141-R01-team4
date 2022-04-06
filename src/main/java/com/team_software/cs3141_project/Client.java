@@ -18,6 +18,7 @@ public class Client {
     static Socket server;
     static PrintWriter out;
     static Scanner in;
+    static String userName = "PC";
 
     private Executor executor = Executors.newCachedThreadPool();
 
@@ -38,7 +39,7 @@ public class Client {
         out.println(UserID);
         out.flush();
 
-        File directoryPath = new File("conversations");
+        File directoryPath = new File("CS3141-R01-team4/conversations");
         String contents[] = directoryPath.list();
 
         for(int i = 0; i < contents.length; i++)
@@ -89,7 +90,6 @@ public class Client {
         System.out.println("what is your username?");
 
         client.startUp(systemIn.nextLine());
-
 
 
 
