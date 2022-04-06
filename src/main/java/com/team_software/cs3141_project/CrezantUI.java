@@ -23,8 +23,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -66,10 +68,9 @@ public class CrezantUI extends Application {
 
         //Buttons
         Button optBtn = new Button("Options");
-        Button newConversation = new Button("+");
         Button sendMessage = new Button("Send");
         GridPane.setHalignment(sendMessage, HPos.RIGHT);    //move send btn to right side
-        GridPane.setHalignment(newConversation, HPos.RIGHT); //move + to right side
+
 
         //On screen text
         Text contactName = new Text("Contact Name");
@@ -94,7 +95,6 @@ public class CrezantUI extends Application {
 
 
         root.add(optBtn, 0,0);
-        root.add(newConversation, 0, 0);
         root.add(textField1, 1,2, 3, 1);
         root.add(sendMessage, 1, 2, 3, 1);
 
@@ -128,7 +128,6 @@ public class CrezantUI extends Application {
 
         //Set button fonts
         optBtn.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
-        newConversation.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
         sendMessage.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
 
         //get convos
@@ -182,6 +181,50 @@ public class CrezantUI extends Application {
             contactsField.getChildren().add(convoButton.get(i)); //add to ui
 
         }
+        //pop for convo button
+        //create pop up
+        Popup popup = new Popup();
+        GridPane poppane = new GridPane();
+        poppane.setStyle(" -fx-background-color: grey;");
+
+        Label label = new Label("Create New Conversation");
+        label.setAlignment(Pos.TOP_CENTER);
+        label.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 20));
+        //label.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));
+        label.setStyle(" -fx-background-color: grey;");
+        label.textFillProperty().set(Paint.valueOf("white"));
+        label.setMinHeight(200);
+
+        Label userlabel = new Label("  User:  ");
+        userlabel.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+        userlabel.textFillProperty().set(Paint.valueOf("white"));
+        userlabel.setMinHeight(200);
+        Label paddingLabel = new Label("              ");
+        //userlabel.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+        userlabel.setMinHeight(200);
+
+        TextField newContactName = new TextField();
+        //newContactName.setAlignment(Pos.CENTER);
+        newContactName.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+        newContactName.setMaxWidth(250);
+
+        poppane.add(label, 1,0);
+        poppane.add(userlabel, 0,0);
+        poppane.add(paddingLabel, 2,0);
+        poppane.add(newContactName, 1,0);
+        popup.getContent().add(poppane);
+        popup.setAutoHide(true);
+        //add convo button
+        Button newConversation = new Button("+");
+        GridPane.setHalignment(newConversation, HPos.RIGHT); //move + to right side
+        newConversation.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+        newConversation.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                if (!popup.isShowing())
+                    popup.show(stage);
+            }
+        });
+        root.add(newConversation, 0, 0);
 
         //adds the vbox with the messages to the scroller
         scroller.setContent(messagesField);
@@ -298,10 +341,31 @@ public class CrezantUI extends Application {
         }
     }
 
-    public void createConversation()
+    public void createConversation(VBox messagesField)
     {
-        //this method is for the + button to use.
-        //should use a popup window.
+
+        //apply info
+        //apply info
+        String newFileName = "";
+
+        //check is convo already exists
+        ArrayList<Button> convoButton = new ArrayList<Button>();
+        //get convo directory
+        File directoryPath = new File("conversations");
+        String contents[] = directoryPath.list();
+        for(int i=0; i<contents.length; i++) {
+            String fileName = contents[i];
+            if((fileName.replace(".txt", "")).equals(newFileName)){
+                //convo already exists
+            }
+        }
+
+        //create new file
+        File infile = new File("conversations/"+newFileName);
+        //empty out the message field
+        messagesField.getChildren().clear();
+        //sets up the pane with new file
+        displayText(infile, messagesField);
     }
 
 }
