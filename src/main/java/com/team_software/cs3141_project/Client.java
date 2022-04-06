@@ -51,9 +51,30 @@ public class Client {
 
             String peerIP = getIP(peerID);
 
-            peerIPs.add(peerIP);
-            System.out.println("client added to peer at " + peerIP + "to peerIPs list");
+            this.updateIP(peerID, peerIP);
+            System.out.println("client updated ip of: " + userID + " to: " + peerIP);
 
+        }
+    }
+
+    public void updateIP(String userID, String IP)
+    {
+        String buffer = "";
+        try(Scanner fileIn = new Scanner(new File("CS3141-R01-team4/conversations" + userID + ".txt"));
+            PrintWriter fileOut = new PrintWriter(new File("CS3141-R01-team4/conversations" + userID + ".txt"))){
+
+            fileIn.nextLine();
+
+            while(fileIn.hasNextLine())
+            {
+                buffer += fileIn.nextLine() + "\n";
+            }
+            out.println(IP);
+            out.print(buffer);
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -93,11 +114,7 @@ public class Client {
 
         client.startListener();
 
-
         client.startUp(systemIn.nextLine());
-
-
-
 
 
     }

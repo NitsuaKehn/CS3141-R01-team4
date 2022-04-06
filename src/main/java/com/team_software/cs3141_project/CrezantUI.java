@@ -238,6 +238,10 @@ public class CrezantUI extends Application {
         //opens new scanner
         try(Scanner in = new Scanner(file))
         {
+
+            //skips first line that holds the ip of that peer
+            in.nextLine();
+
             //loops until file is empty
             while(in.hasNext()) {
 
