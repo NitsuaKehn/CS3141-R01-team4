@@ -60,8 +60,10 @@ public class Client {
     public void updateIP(String userID, String IP)
     {
         String buffer = "";
-        try(Scanner fileIn = new Scanner(new File("CS3141-R01-team4/conversations" + userID + ".txt"));
-            PrintWriter fileOut = new PrintWriter(new File("CS3141-R01-team4/conversations" + userID + ".txt"))){
+        try{
+            File contactFile = new File("conversations/" + userID + ".txt");
+            Scanner fileIn = new Scanner(contactFile);
+            PrintWriter fileOut = new PrintWriter(contactFile);
 
             fileIn.nextLine();
 
