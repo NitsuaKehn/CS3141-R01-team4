@@ -33,6 +33,8 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class CrezantUI extends Application {
+    private String currentConvoFileName = "";
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -64,12 +66,10 @@ public class CrezantUI extends Application {
         row3.setPercentHeight(15);
         root.getRowConstraints().addAll(row1,row2,row3);
 
-
-
         //Buttons
         Button optBtn = new Button("Options");
-        Button sendMessage = new Button("Send");
-        GridPane.setHalignment(sendMessage, HPos.RIGHT);    //move send btn to right side
+        Button sendMessageBtn = new Button("Send");
+        GridPane.setHalignment(sendMessageBtn, HPos.RIGHT);    //move send btn to right side
 
 
         //On screen text
@@ -96,7 +96,7 @@ public class CrezantUI extends Application {
 
         root.add(optBtn, 0,0);
         root.add(textField1, 1,2, 3, 1);
-        root.add(sendMessage, 1, 2, 3, 1);
+        root.add(sendMessageBtn, 1, 2, 3, 1);
 
         //makes messages vbox
         VBox messagesField = new VBox();//vbox to hold sent and received messages
@@ -128,7 +128,7 @@ public class CrezantUI extends Application {
 
         //Set button fonts
         optBtn.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
-        sendMessage.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+        sendMessageBtn.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
 
         //get convos
         ArrayList<Button> convoButton = new ArrayList<Button>();
@@ -170,6 +170,8 @@ public class CrezantUI extends Application {
                     //open conversation
                     //file that holds the messages info
                     File infile = new File("conversations/"+fileName);
+
+                    currentConvoFileName = "conversations/" + fileName;
 
                     //empty out the message field
                     messagesField.getChildren().clear();
@@ -224,6 +226,26 @@ public class CrezantUI extends Application {
                     popup.show(stage);
             }
         });
+
+        //ActionEvent for sendMessageBtn
+        sendMessageBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                if (textField1.getText().equals("") || currentConvoFileName.equals("")) {
+                    //Do nothing
+                }
+                else {
+                    //Run sendMessage()
+                    try {
+                        sendMessage(textField1.getText(), currentConvoFileName, messagesField);
+                        textField1.clear();
+                    } catch (IOException e) {
+                        System.out.println("ERROR: Could not send message");
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
         root.add(newConversation, 0, 0);
 
         //adds the vbox with the messages to the scroller
@@ -256,14 +278,26 @@ public class CrezantUI extends Application {
      * @param root
      * @throws IOException
      */
-    public void sendMessage(String message, File file, Pane root) throws IOException
+    public void sendMessage(String message, String fileName, Pane root) throws IOException
     {
-        //Write message to file
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.append("\nS ");
-        writer.append(message);
+//        String buffer = "";
 
+        //Write message to file
+        File file = new File(fileName);
+        FileWriter writer = new FileWriter(file, true);
+//        Scanner fileIn = new Scanner(file);
+//
+//        fileIn.next();
+//
+//        while(fileIn.hasNextLine())
+//        {
+//            buffer += fileIn.nextLine() + "\n";
+//        }
+
+        writer.append("\nS " + message);
         writer.close();
+
+        root.getChildren().clear();
 
         //Update texts with display text
         displayText(file, root);
