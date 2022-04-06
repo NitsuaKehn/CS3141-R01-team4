@@ -141,78 +141,47 @@ public class CrezantUI extends Application {
         for(int i=0; i<contents.length; i++) {
             String fileName = contents[i];
             //create a cool button
-            convoButton.add(new Button());
-            convoButton.get(i).setText(fileName.replace(".txt", "")); // set convo button name
-            convoButton.get(i).setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
-            convoButton.get(i).setTextAlignment(TextAlignment.CENTER);
-            convoButton.get(i).textFillProperty().set(Paint.valueOf("white"));
-            convoButton.get(i).setWrapText(true);
-            convoButton.get(i).setMaxWidth(contactsField.getMaxWidth());
-            convoButton.get(i).setMinHeight(contactsField.getMinWidth());
-            convoButton.get(i).setPrefHeight(45);
-            convoButton.get(i).prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
-            convoButton.get(i).setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
-            int finalI = i;
-            convoButton.get(i).setOnMouseEntered(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent mouseEvent) {
-                    convoButton.get(finalI).setBackground(new Background(new BackgroundFill(Paint.valueOf("#bea8e0"), null, null)));//sets the background color
-                }
-            });
-            convoButton.get(i).setOnMouseExited(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent mouseEvent) {
-                    convoButton.get(finalI).setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
-                }
-            });
-
-            // action event
-            convoButton.get(i).setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent actionEvent) {
-                    //open conversation
-                    //file that holds the messages info
-                    File infile = new File("conversations/"+fileName);
-
-                    currentConvoFileName = "conversations/" + fileName;
-
-                    //empty out the message field
-                    messagesField.getChildren().clear();
-
-                    //sets up the pane with all the messages in it
-                    displayText(infile, messagesField);
-                }
-            });
-            contactsField.getChildren().add(convoButton.get(i)); //add to ui
-
+            createConvoButton(stage, contactsField, messagesField, convoButton, fileName);
         }
         //pop for convo button
         //create pop up
         Popup popup = new Popup();
         GridPane poppane = new GridPane();
         poppane.setStyle(" -fx-background-color: grey;");
-
+        //popup label
         Label label = new Label("Create New Conversation");
         label.setAlignment(Pos.TOP_CENTER);
         label.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 20));
-        //label.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));
         label.setStyle(" -fx-background-color: grey;");
         label.textFillProperty().set(Paint.valueOf("white"));
-        label.setMinHeight(200);
-
+        label.setMinHeight(150);
+        //textbox label
         Label userlabel = new Label("  User:  ");
         userlabel.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
         userlabel.textFillProperty().set(Paint.valueOf("white"));
-        userlabel.setMinHeight(200);
+        userlabel.setMinHeight(150);
         Label paddingLabel = new Label("              ");
-        //userlabel.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
-        userlabel.setMinHeight(200);
+        //error label
+        Label errorLabel = new Label("error");
+        errorLabel.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 18));
+        errorLabel.textFillProperty().set(Paint.valueOf("red"));
+        if (!popup.isShowing()) //trigger
+            errorLabel.setVisible(false);
 
         TextField newContactName = new TextField();
         //newContactName.setAlignment(Pos.CENTER);
         newContactName.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
         newContactName.setMaxWidth(250);
+        newContactName.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                createConversation(stage, contactsField, messagesField, errorLabel, convoButton, newContactName.getCharacters());
+            }
+        });
 
         poppane.add(label, 1,0);
         poppane.add(userlabel, 0,0);
         poppane.add(paddingLabel, 2,0);
+        poppane.add(errorLabel, 1,1);
         poppane.add(newContactName, 1,0);
         popup.getContent().add(poppane);
         popup.setAutoHide(true);
@@ -274,7 +243,7 @@ public class CrezantUI extends Application {
      * Then call displayText to update texts in the field
      * Then call method from client to send message over network?
      * @param message
-     * @param file
+     * @param fileName
      * @param root
      * @throws IOException
      */
@@ -375,31 +344,81 @@ public class CrezantUI extends Application {
         }
     }
 
-    public void createConversation(VBox messagesField)
-    {
-
-        //apply info
-        //apply info
-        String newFileName = "";
-
-        //check is convo already exists
-        ArrayList<Button> convoButton = new ArrayList<Button>();
-        //get convo directory
-        File directoryPath = new File("conversations");
-        String contents[] = directoryPath.list();
-        for(int i=0; i<contents.length; i++) {
-            String fileName = contents[i];
-            if((fileName.replace(".txt", "")).equals(newFileName)){
-                //convo already exists
+    public void createConvoButton(Stage stage, VBox contactsField, VBox messagesField, ArrayList<Button> convoButton, String fileName){
+        Button convo = new Button();
+        convo.setText(fileName.replace(".txt", "")); // set convo button name
+        convo.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+        convo.setTextAlignment(TextAlignment.CENTER);
+        convo.textFillProperty().set(Paint.valueOf("white"));
+        convo.setWrapText(true);
+        convo.setMaxWidth(contactsField.getMaxWidth());
+        convo.setMinHeight(contactsField.getMinWidth());
+        convo.setPrefHeight(45);
+        convo.prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
+        convo.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
+        convo.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent mouseEvent) {
+                convo.setBackground(new Background(new BackgroundFill(Paint.valueOf("#bea8e0"), null, null)));//sets the background color
             }
-        }
+        });
+        convo.setOnMouseExited(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent mouseEvent) {
+                convo.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
+            }
+        });
 
-        //create new file
-        File infile = new File("conversations/"+newFileName);
-        //empty out the message field
-        messagesField.getChildren().clear();
-        //sets up the pane with new file
-        displayText(infile, messagesField);
+        // action event
+        convo.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                //open conversation
+                //file that holds the messages info
+                File infile = new File("conversations/"+fileName);
+
+                //empty out the message field
+                messagesField.getChildren().clear();
+
+                //sets up the pane with all the messages in it
+                displayText(infile, messagesField);
+            }
+        });
+        convoButton.add(convo);
+        contactsField.getChildren().add(convo); //add to ui
     }
 
+    public void createConversation(Stage stage, VBox contactsField, VBox messagesField, Label errorLabel, ArrayList<Button> convoButton, CharSequence userName)
+    {
+        //get as string
+        String newFileName = userName.toString();
+        //check if user exists on server
+        if (true){
+            //check if convo already exists
+            try {
+                // Get the file
+                File infile = new File("conversations/"+newFileName+".txt");
+                if (infile.createNewFile()) {
+                    //file created
+                    FileWriter writer = new FileWriter(infile, true);
+                    //get user ip address
+                    writer.append("/1.1.1.1");
+                    writer.close();
+                    //empty out the message field
+                    messagesField.getChildren().clear();
+                    //sets up the pane with new file
+                    displayText(infile, messagesField);
+                    createConvoButton(stage, contactsField, messagesField, convoButton, newFileName + ".txt");
+                }
+                else {
+                    errorLabel.setText("Conversation Already Exists!");
+                    errorLabel.setVisible(true);
+                }
+            }
+            catch (Exception e) {
+                System.err.println(e);
+            }
+        }
+        else{
+            errorLabel.setText("User Does Not Exist!");
+            errorLabel.setVisible(true);
+        }
+    }
 }
