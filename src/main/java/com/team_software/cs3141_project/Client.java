@@ -52,7 +52,7 @@ public class Client {
             String peerIP = getIP(peerID);
 
             this.updateIP(peerID, peerIP);
-            System.out.println("client updated ip of: " + userID + " to: " + peerIP);
+            System.out.println("client updated ip of: " + peerID + " to: " + peerIP);
 
         }
     }
