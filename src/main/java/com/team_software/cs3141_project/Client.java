@@ -42,7 +42,7 @@ public class Client {
         out.println(UserID);
         out.flush();
 
-        File directoryPath = new File("CS3141-R01-team4/conversations");
+        File directoryPath = new File("conversations");
         String contents[] = directoryPath.list();
 
         for(int i = 0; i < contents.length; i++)
