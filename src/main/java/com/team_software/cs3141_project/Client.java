@@ -116,6 +116,7 @@ public class Client {
         peerOut.println(message);
         peerOut.flush();
 
+
     }
 
     public static void main(String[] args) throws IOException {
@@ -129,6 +130,16 @@ public class Client {
         client.startListener();
 
         client.startUp(systemIn.nextLine());
+
+        System.out.println("who would you like to talk to");
+
+        String peer = systemIn.nextLine();
+
+        System.out.println("what is your message");
+
+        String message = systemIn.nextLine();
+
+        client.sendMessage(peer, message);
 
 
     }
