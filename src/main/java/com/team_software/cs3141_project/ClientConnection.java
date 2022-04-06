@@ -30,7 +30,7 @@ public class ClientConnection implements  Runnable{
             try {
                 String message = this.in.nextLine();
 
-                String[] splitMessage = message.split(" ", 1);
+                String[] splitMessage = message.split(" ", 2);
 
                 parent.getMessage(splitMessage[0], splitMessage[1]);
 

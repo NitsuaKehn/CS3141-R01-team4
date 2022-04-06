@@ -96,12 +96,13 @@ public class Client {
 
     public void getMessage(String peerID, String message)
     {
-        File file = new File(peerID + ".txt");
-        try (PrintWriter out = new PrintWriter(file)){
-            out.append("R " + message);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        File file = new File(peerID + ".txt");
+//        try (PrintWriter out = new PrintWriter(file)){
+//            out.append("R " + message);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        System.out.println("Message from PeerID: " + peerID + ": " + message);
     }
 
     public void sendMessage(String peerID, String message) throws IOException {
