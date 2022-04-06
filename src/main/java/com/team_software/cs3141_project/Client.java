@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 
 public class Client {
 
-    private static String serverIp = "141.219.194.213";
+    private static String serverIp = "141.219.196.118";
     private static int port = 6066;
 
 
@@ -104,12 +104,12 @@ public class Client {
     public void sendMessage(String peerID, String message) throws IOException {
 
 
-        File file = new File("conversation\\" + peerID + ".txt");
+        File file = new File("conversations\\" + peerID + ".txt");
         Scanner fileIn = new Scanner(file);
 
         String peerIP = fileIn.next();
 
-        Socket peerSocket = new Socket(peerIP, port);
+        Socket peerSocket = new Socket(peerIP.substring(1), port);
 
         PrintWriter peerOut = new PrintWriter(peerSocket.getOutputStream());
 
