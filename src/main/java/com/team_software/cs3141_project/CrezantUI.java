@@ -64,12 +64,13 @@ public class CrezantUI extends Application {
         row3.setPercentHeight(15);
         root.getRowConstraints().addAll(row1,row2,row3);
 
-
+        //Indicates which file is currently being used
+        final File[] currentConvoFile = {null};
 
         //Buttons
         Button optBtn = new Button("Options");
-        Button sendMessage = new Button("Send");
-        GridPane.setHalignment(sendMessage, HPos.RIGHT);    //move send btn to right side
+        Button sendMessageBtn = new Button("Send");
+        GridPane.setHalignment(sendMessageBtn, HPos.RIGHT);    //move send btn to right side
 
 
         //On screen text
@@ -96,7 +97,7 @@ public class CrezantUI extends Application {
 
         root.add(optBtn, 0,0);
         root.add(textField1, 1,2, 3, 1);
-        root.add(sendMessage, 1, 2, 3, 1);
+        root.add(sendMessageBtn, 1, 2, 3, 1);
 
         //makes messages vbox
         VBox messagesField = new VBox();//vbox to hold sent and received messages
@@ -128,7 +129,25 @@ public class CrezantUI extends Application {
 
         //Set button fonts
         optBtn.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
-        sendMessage.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+        sendMessageBtn.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+
+        //ActionEvent for sendMessageBtn
+        sendMessageBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                if (textField1.getText().equals("") || currentConvoFile[0] == null) {
+                    //Do nothing
+                }
+                else {
+                    //Run sendMessage()
+                    try {
+                        sendMessage(textField1.getText(), currentConvoFile[0], messagesField);
+                    } catch (IOException e) {
+                        System.out.println("ERROR: Could not send message");
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
         //get convos
         ArrayList<Button> convoButton = new ArrayList<Button>();
@@ -170,6 +189,7 @@ public class CrezantUI extends Application {
                     //open conversation
                     //file that holds the messages info
                     File infile = new File("conversations/"+fileName);
+                    currentConvoFile[0] = new File("conversations/"+ fileName);
 
                     //empty out the message field
                     messagesField.getChildren().clear();
