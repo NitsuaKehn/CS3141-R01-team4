@@ -19,7 +19,7 @@ public class Client {
     static Socket server;
     static PrintWriter out;
     static Scanner in;
-    static String userName = "PC";
+    static String userName;
     private ArrayList<String> peerIPs = new ArrayList<>();
 
     private Executor executor = Executors.newCachedThreadPool();
@@ -32,6 +32,9 @@ public class Client {
     }
 
     public void startUp(String UserID) throws IOException {
+
+        userName = UserID;
+
         server = new Socket(serverIp, port);
 
         in = new Scanner(server.getInputStream());
@@ -113,7 +116,7 @@ public class Client {
 
         PrintWriter peerOut = new PrintWriter(peerSocket.getOutputStream());
 
-        peerOut.println(message);
+        peerOut.println(userName + " " + message);
         peerOut.flush();
 
 
