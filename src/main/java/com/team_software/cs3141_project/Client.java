@@ -105,6 +105,7 @@ public class Client {
         File file = new File("Conversations/" + peerID + ".txt");
         try (PrintWriter out = new PrintWriter(file)){
             out.append("R " + message);
+            out.flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
