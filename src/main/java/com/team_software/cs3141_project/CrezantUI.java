@@ -36,6 +36,7 @@ import java.util.Stack;
 
 public class CrezantUI extends Application {
     private String currentConvoFileName = "";
+    private Client client = new Client();
 
     public static void main(String[] args) {
         launch(args);
@@ -43,6 +44,9 @@ public class CrezantUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        client.startListener();
+        //client.startUp("");
+
         stage.setTitle("Crezant");
 
         //creates the gridpane
@@ -274,19 +278,16 @@ public class CrezantUI extends Application {
      */
     public void sendMessage(String message, String fileName, Pane root) throws IOException
     {
-//        String buffer = "";
+        String peerIP = "";
 
         //Write message to file
         File file = new File(fileName);
         FileWriter writer = new FileWriter(file, true);
-//        Scanner fileIn = new Scanner(file);
-//
-//        fileIn.next();
-//
-//        while(fileIn.hasNextLine())
-//        {
-//            buffer += fileIn.nextLine() + "\n";
-//        }
+        Scanner fileIn = new Scanner(file);
+
+        if (fileIn.hasNextLine()) {
+            peerIP = fileIn.nextLine();
+        }
 
         writer.append("\nS " + message);
         writer.close();
@@ -296,6 +297,8 @@ public class CrezantUI extends Application {
         //Update texts with display text
         displayText(file, root);
 
+        //Call Client's sendMessage to send msg to peer
+        client.sendMessage(peerIP, message);
 
     }
 
@@ -418,7 +421,7 @@ public class CrezantUI extends Application {
         //get as string
         String newFileName = userName.toString();
         //check if user exists on server
-        String ip = Client.getIP(newFileName);
+        String ip = client.getIP(newFileName);
         if (!ip.equals("null")){
             //check if convo already exists
             try {
