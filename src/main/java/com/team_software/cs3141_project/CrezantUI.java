@@ -393,7 +393,8 @@ public class CrezantUI extends Application {
         //get as string
         String newFileName = userName.toString();
         //check if user exists on server
-        if (true){
+        String ip = Client.getIP(newFileName);
+        if (!ip.equals("null")){
             //check if convo already exists
             try {
                 // Get the file
@@ -402,7 +403,7 @@ public class CrezantUI extends Application {
                     //file created
                     FileWriter writer = new FileWriter(infile, true);
                     //get user ip address
-                    writer.append("/1.1.1.1");
+                    writer.append(ip);
                     writer.close();
                     //empty out the message field
                     messagesField.getChildren().clear();
