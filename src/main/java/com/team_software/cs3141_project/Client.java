@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 
 public class Client {
 
-    private static String serverIp = "141.219.196.118";
+    private static String serverIp = "141.219.231.100";
     private static int port = 6066;
 
 
@@ -30,15 +30,6 @@ public class Client {
         out.flush();
         return in.next();
     }
-
-    public String getIp(String userID)
-    {
-        out.println(userID);
-        out.flush();
-
-        return in.nextLine();
-    }
-
 
 
     public void startUp(String UserID) throws IOException {
