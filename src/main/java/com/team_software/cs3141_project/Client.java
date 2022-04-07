@@ -24,7 +24,7 @@ public class Client {
 
     private Executor executor = Executors.newCachedThreadPool();
 
-    public String getIP(String PeerID)
+    public static String getIP(String PeerID)
     {
         out.println(PeerID);
         out.flush();
