@@ -14,6 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -196,7 +198,7 @@ public class CrezantUI extends Application {
             }
         });
 
-        //ActionEvent for sendMessageBtn
+        //sendMessageBtn updates the messages field with the text put in the textfield
         sendMessageBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent actionEvent) {
                 if (textField1.getText().equals("") || currentConvoFileName.equals("")) {
@@ -210,6 +212,29 @@ public class CrezantUI extends Application {
                     } catch (IOException e) {
                         System.out.println("ERROR: Could not send message");
                         e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        //When you press the enter key in the textfield, it'll do the same thing as
+        //clicking on the send button
+        textField1.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+                    if (textField1.getText().equals("") || currentConvoFileName.equals("")) {
+                        //Do nothing
+                    }
+                    else {
+                        //Run sendMessage()
+                        try {
+                            sendMessage(textField1.getText(), currentConvoFileName, messagesField);
+                            textField1.clear();
+                        } catch (IOException e) {
+                            System.out.println("ERROR: Could not send message");
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
