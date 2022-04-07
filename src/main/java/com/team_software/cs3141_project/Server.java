@@ -15,6 +15,7 @@ public class Server {
 
     private Executor executor = Executors.newCachedThreadPool();
 
+
     public String getUserIP(String UserID)
     {
         try(Scanner in = new Scanner(contacts)){
@@ -39,7 +40,7 @@ public class Server {
             e.printStackTrace();
         }
 
-        return null;
+        return "null";
     }
 
     public void updateContact(String UserID, Socket client)
@@ -91,8 +92,6 @@ public class Server {
     public static void main(String[] args) throws IOException {
 
         Server server = new Server();//insatiate the server
-
-
 
         ServerSocket serverSocket = new ServerSocket(portNumber);//makes the server socket
 

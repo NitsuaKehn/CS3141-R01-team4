@@ -31,6 +31,16 @@ public class Client {
         return in.next();
     }
 
+    public String getIp(String userID)
+    {
+        out.println(userID);
+        out.flush();
+
+        return in.nextLine();
+    }
+
+
+
     public void startUp(String UserID) throws IOException {
 
         userName = UserID;
@@ -54,7 +64,12 @@ public class Client {
 
             String peerIP = getIP(peerID);
 
-            this.updateIP(peerID, peerIP);
+            if(!peerIP.equals("null"))
+            {
+                this.updateIP(peerID, peerIP);
+            }
+
+
             System.out.println("client updated ip of: " + peerID + " to: " + peerIP);
 
         }
@@ -96,12 +111,12 @@ public class Client {
 
     public void getMessage(String peerID, String message)
     {
-//        File file = new File(peerID + ".txt");
-//        try (PrintWriter out = new PrintWriter(file)){
-//            out.append("R " + message);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        File file = new File("Conversations/" + peerID + ".txt");
+        try (PrintWriter out = new PrintWriter(file)){
+            out.append("R " + message);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         System.out.println("Message from PeerID: " + peerID + ": " + message);
     }
 
