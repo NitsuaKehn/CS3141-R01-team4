@@ -374,6 +374,9 @@ public class CrezantUI extends Application {
                 //file that holds the messages info
                 File infile = new File("conversations/"+fileName);
 
+                //Update currently used convo file
+                currentConvoFileName = "conversations/" + fileName;
+
                 //empty out the message field
                 messagesField.getChildren().clear();
 
