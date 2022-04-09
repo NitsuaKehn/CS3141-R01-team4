@@ -9,11 +9,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -111,7 +109,7 @@ public class CrezantUI extends Application {
         messagesField.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
 
         //makes contacts vbox
-        VBox contactsField = new VBox();//vbox to hold sent and received messages
+        VBox contactsField = new VBox();//vbox to hold conversations
         contactsField.setSpacing(3);
         contactsField.prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
         contactsField.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));
@@ -258,8 +256,8 @@ public class CrezantUI extends Application {
         Scene scene = new Scene(root, 750, 750); //Size of opened window.
 
         stage.getIcons().add(new Image("file:src/main/resources/logo/CrezantLogo.png"));
-        stage.setMinWidth(550);
-        stage.setMinHeight(450);
+        stage.setMinWidth(250);
+        stage.setMinHeight(150);
         stage.setScene(scene);
         stage.show();
 
@@ -412,6 +410,23 @@ public class CrezantUI extends Application {
                 displayText(infile, messagesField);
             }
         });
+        //create delete button for convo
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem delete = new MenuItem("DELETE");
+        contextMenu.setStyle("-fx-background-color: grey; -fx-font-weight: bold; -fx-font-size: 13px;");
+        delete.setStyle("-fx-text-fill: white;");
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent actionEvent) {
+                File infile = new File("conversations/"+fileName);
+                infile.delete(); //delete file
+                convoButton.remove(convo); // remove from arraylist
+                contactsField.getChildren().remove(convo); //remove from ui
+            }
+        });
+        contextMenu.getItems().add(delete);
+        convo.setContextMenu(contextMenu);
+
+        //add convo to UI
         convoButton.add(convo);
         contactsField.getChildren().add(convo); //add to ui
     }
