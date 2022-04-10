@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-
+//client app
 public class Client {
 
     private static String serverIp = "141.219.231.100";
@@ -24,6 +24,7 @@ public class Client {
 
     private Executor executor = Executors.newCachedThreadPool();
 
+    //method to get the IP address of a User from the server
     public static String getIP(String PeerID)
     {
         out.println(PeerID);
@@ -32,20 +33,22 @@ public class Client {
     }
 
 
+    //startup method
     public void startUp(String UserID) throws IOException {
-
+        //this clients username
         userName = UserID;
-
+        //socket of the server
         server = new Socket(serverIp, port);
-
+        //inits server
         in = new Scanner(server.getInputStream());
-
+        //inits output
         out = new PrintWriter(server.getOutputStream());
 
-
+        //sends our username so server can update our IP
         out.println(UserID);
         out.flush();
 
+        //gets the IP address of the all our know clients
         File directoryPath = new File("conversations");
         String contents[] = directoryPath.list();
 
@@ -66,24 +69,31 @@ public class Client {
         }
     }
 
+
+    //updates the IP address up a contact
     public void updateIP(String userID, String IP)
     {
         String buffer = "";
         try{
+            //opens the contacts folder
             File contactFile = new File("conversations\\" + userID + ".txt");
             Scanner fileIn = new Scanner(contactFile);
 
-
+            //eats the old IP address
             fileIn.next();
 
+            //reads in the rest of the file
             while(fileIn.hasNextLine())
             {
                 buffer += fileIn.nextLine() + "\n";
             }
 
+
             FileWriter fileOut = new FileWriter(contactFile);
 
+            //writes new IP address
             fileOut.append(IP);
+            //adds the rest back in
             fileOut.append(buffer);
             fileOut.close();
             fileIn.close();
@@ -95,14 +105,19 @@ public class Client {
         }
     }
 
+    //creates new thread to always listen for new Peer connections
     public void startListener(){
         ClientListener newListener = new ClientListener(this);
         this.executor.execute(newListener);
     }
 
+    //handle message from peer
     public void getMessage(String peerID, String message)
     {
+        //open the file for given contact
         File file = new File("Conversations/" + peerID + ".txt");
+
+        //add the message with the recived tag
         try (PrintWriter out = new PrintWriter(file)){
             out.append("R " + message);
             out.flush();
@@ -112,24 +127,30 @@ public class Client {
         System.out.println("Message from PeerID: " + peerID + ": " + message);
     }
 
+    //method to send Message to given Peer
     public void sendMessage(String peerID, String message) throws IOException {
 
-
+        //opens contact file name
         File file = new File("conversations\\" + peerID + ".txt");
         Scanner fileIn = new Scanner(file);
 
+        //gets the IP address of the peer
         String peerIP = fileIn.next();
 
+        //opens the socket
         Socket peerSocket = new Socket(peerIP.substring(1), port);
 
+        //intis output
         PrintWriter peerOut = new PrintWriter(peerSocket.getOutputStream());
 
+        //sends the message to the Peer
         peerOut.println(userName + " " + message);
         peerOut.flush();
 
 
     }
 
+    //main method
     public static void main(String[] args) throws IOException {
 
         Client client = new Client();

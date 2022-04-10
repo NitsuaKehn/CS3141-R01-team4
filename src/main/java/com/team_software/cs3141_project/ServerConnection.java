@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
+//handles the connections to client
 public class ServerConnection implements Runnable {
 
     private Server parent;
@@ -12,6 +13,7 @@ public class ServerConnection implements Runnable {
     private PrintWriter out;
     private Scanner in;
 
+    //constructor
     protected ServerConnection(Server parent, Socket socket) throws IOException {
 
 
@@ -22,14 +24,17 @@ public class ServerConnection implements Runnable {
         this.in     = new Scanner(socket.getInputStream());
     }
 
+    //runnable method
     @Override
     public void run() {
+        //loops until the socket is closed
         while(!this.socket.isClosed()) {
             try {
+                //reads in the userID
                 String UserID = this.in.nextLine();
-
+                //gets the IP
                 String recipientIP = parent.getUserIP(UserID);
-
+                //sends the IP back to the client
                 out.println(recipientIP);
 
                 System.out.println("recipient ip is " + recipientIP);

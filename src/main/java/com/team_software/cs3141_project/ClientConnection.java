@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+//handler for P2P connection
 public class ClientConnection implements  Runnable{
     private Client parent;
 
@@ -14,6 +15,7 @@ public class ClientConnection implements  Runnable{
     private PrintWriter out;
     private Scanner in;
 
+    //constructor
     protected ClientConnection(Client parent, Socket socket) throws IOException {
 
 
@@ -24,14 +26,19 @@ public class ClientConnection implements  Runnable{
         this.in = new Scanner(socket.getInputStream());
     }
 
+    //main method
     @Override
     public void run() {
+        //loops until socket is closed
         while(!this.socket.isClosed()) {
             try {
+                //gets the whole message
                 String message = this.in.nextLine();
 
+                //splits the message into the UserName and the whole message
                 String[] splitMessage = message.split(" ", 2);
 
+                //calls get message to update the stuff
                 parent.getMessage(splitMessage[0], splitMessage[1]);
 
                 if(message == null)
