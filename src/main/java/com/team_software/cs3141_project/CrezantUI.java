@@ -190,7 +190,7 @@ public class CrezantUI extends Application {
         popup.getContent().add(poppane);
         popup.setAutoHide(true);
         //add convo button
-        Button newConversation = new Button("+");
+        Button newConversation = new Button("New Conversation");
         GridPane.setHalignment(newConversation, HPos.RIGHT); //move + to right side
         newConversation.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
         newConversation.setOnAction(new EventHandler<ActionEvent>() {
