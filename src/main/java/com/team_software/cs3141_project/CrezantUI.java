@@ -71,7 +71,7 @@ public class CrezantUI extends Application {
         root.getRowConstraints().addAll(row1,row2,row3);
 
         //Buttons
-        Button optBtn = new Button("Options");
+        //Button optBtn = new Button("Options");
         Button sendMessageBtn = new Button("Send");
         GridPane.setHalignment(sendMessageBtn, HPos.RIGHT);    //move send btn to right side
 
@@ -98,7 +98,7 @@ public class CrezantUI extends Application {
         root.setStyle("-fx-background-color: 3C3C3C"); //sets background to gray.
 
 
-        root.add(optBtn, 0,0);
+        //root.add(optBtn, 0,0);
         root.add(textField1, 1,2, 3, 1);
         root.add(sendMessageBtn, 1, 2, 3, 1);
 
