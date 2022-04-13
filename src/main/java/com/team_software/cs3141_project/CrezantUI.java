@@ -131,7 +131,7 @@ public class CrezantUI extends Application {
         contacts.setPrefWidth(100);
 
         //Set button fonts
-        optBtn.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
+        //optBtn.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
         sendMessageBtn.setFont(Font.loadFont("file:src/main/resources/fonts/Ubuntu-Medium.ttf", 13));
 
         //get convos
