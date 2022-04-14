@@ -115,7 +115,7 @@ public class Client {
     public void getMessage(String peerID, String message)
     {
         //open the file for given contact
-        File file = new File("Conversations/" + peerID + ".txt");
+        File file = new File("conversations/" + peerID + ".txt");
 
         //add the message with the recived tag
         try (PrintWriter out = new PrintWriter(file)){
@@ -131,7 +131,7 @@ public class Client {
     public void sendMessage(String peerID, String message) throws IOException {
 
         //opens contact file name
-        File file = new File("conversations\\" + peerID + ".txt");
+        File file = new File("conversations/" + peerID + ".txt");
         Scanner fileIn = new Scanner(file);
 
         //gets the IP address of the peer
