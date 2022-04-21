@@ -157,8 +157,9 @@ public class Client {
 
         //add the message with the recived tag
         try (FileWriter out = new FileWriter(file, true)){
-            out.append("R " + message);
+            out.append("\nR " + message);
             out.flush();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

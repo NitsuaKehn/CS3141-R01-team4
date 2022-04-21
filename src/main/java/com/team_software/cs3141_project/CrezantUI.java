@@ -1,6 +1,7 @@
 package com.team_software.cs3141_project;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -480,7 +481,13 @@ public class CrezantUI extends Application {
     public void refresh()
     {
         File file = new File(currentConvoFileName);
-        messagesField.getChildren().clear();
-        displayText(file, messagesField);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                messagesField.getChildren().clear();
+                displayText(file, messagesField);
+            }
+        });
+
     }
 }
