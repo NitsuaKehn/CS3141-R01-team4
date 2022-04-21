@@ -171,7 +171,7 @@ public class Client {
         String peerIP = fileIn.next();
 
         //opens the socket
-        Socket peerSocket = new Socket(peerIP.substring(1), port);
+        Socket peerSocket = new Socket(peerIP.substring(1), 6067);
 
         //intis output
         PrintWriter peerOut = new PrintWriter(peerSocket.getOutputStream());
