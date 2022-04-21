@@ -29,8 +29,6 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.*;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
@@ -40,23 +38,21 @@ public class CrezantUI extends Application {
     private Client client;
     private String userName;
     private VBox messagesField;
-    private Crypt magicMachine;
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public CrezantUI(Client client, String userName, Crypt magicMachine)
+    public CrezantUI(Client client, String userName)
     {
         this.client = client;
         this.userName = userName;
-        this.magicMachine = magicMachine;
     }
 
     @Override
     public void start(Stage stage) throws Exception {
         client.startListener();
-        client.startUp(userName, this, magicMachine);
+        client.startUp(userName, this);
 
         stage.setTitle("Crezant");
 
@@ -293,29 +289,15 @@ public class CrezantUI extends Application {
 
         //Write message to file
         File file = new File(fileName);
-        String input = "";
-        String output = "";
+        FileWriter writer = new FileWriter(file, true);
+        Scanner fileIn = new Scanner(file);
 
-        try
-        {
-            input = magicMachine.decrypt(fileName);
-
-            FileWriter writer = new FileWriter(file, true);
-            Scanner fileIn = new Scanner(input);
-
-            if (fileIn.hasNextLine()) {
-                peerIP = fileIn.nextLine();
-            }
-
-            output = input + "\nS " + message;
-
-            magicMachine.encrypt(output, fileName);
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
+        if (fileIn.hasNextLine()) {
+            peerIP = fileIn.nextLine();
         }
 
+        writer.append("\nS " + message);
+        writer.close();
 
         root.getChildren().clear();
 
@@ -335,11 +317,8 @@ public class CrezantUI extends Application {
     public void displayText(File file, Pane root)
     {
         //opens new scanner
-        try
+        try(Scanner in = new Scanner(file))
         {
-            String input = magicMachine.decrypt("conversations/" + file.getName());
-
-            Scanner in = new Scanner(input);
 
             //skips first line that holds the ip of that peer
             in.nextLine();
@@ -397,12 +376,6 @@ public class CrezantUI extends Application {
             System.out.println("file not found");
             e.printStackTrace();
 
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
         }
     }
 

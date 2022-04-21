@@ -117,7 +117,7 @@ public class LoginPage extends Application{
                                 e.printStackTrace();
                             }
                             System.out.println("open UI!");
-                            CrezantUI app = new CrezantUI(client, givenUser, magicMachine);
+                            CrezantUI app = new CrezantUI(client, givenUser);
                             stage.close();
                             try {
                                 app.start(stage);
@@ -176,12 +176,14 @@ public class LoginPage extends Application{
                     try(Scanner in = new Scanner(buffer))
                     {
 
+                        System.out.println(buffer);
+
                         String username = in.next();
                         String password = in.next();
                         if (usernameField.getCharacters().toString().equals(username)
                                 && passwordField.getCharacters().toString().equals(password)) {//check if user name taken and field not blank
                             System.out.println("open UI!");
-                            CrezantUI app = new CrezantUI(client, username, magicMachine);
+                            CrezantUI app = new CrezantUI(client, username);
                             stage.close();
                             app.start(stage);
                         }

@@ -3,9 +3,6 @@ package com.team_software.cs3141_project;
 import java.io.*;
 
 import java.net.ServerSocket;
-import java.net.UnknownHostException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.net.Socket;
@@ -15,12 +12,10 @@ import java.util.concurrent.Executors;
 //client app
 public class Client {
 
-    private static String serverIp = "141.219.194.213";
+    private static String serverIp = "141.219.230.128";
     private static int port = 6066;
 
     private CrezantUI UI;
-    private Crypt magicMachine;
-
 
     static String input;
     static Socket server;
@@ -30,7 +25,6 @@ public class Client {
     private ArrayList<String> peerIPs = new ArrayList<>();
 
     private Executor executor = Executors.newCachedThreadPool();
-
 
     //method to get the IP address of a User from the server
     public String getIP(String PeerID)
@@ -75,10 +69,9 @@ public class Client {
 
 
     //startup method
-    public void startUp(String UserID, CrezantUI UI, Crypt magicMachine) throws IOException {
+    public void startUp(String UserID, CrezantUI UI) throws IOException {
 
         this.UI = UI;
-        this.magicMachine = magicMachine;
 
         //this clients username
         userName = UserID;
@@ -121,9 +114,8 @@ public class Client {
         String buffer = "";
         try{
             //opens the contacts folder
-            //File contactFile = new File("conversations/" + userID + ".txt");
-            String input = magicMachine.decrypt("conversations/" + userID + ".txt");
-            Scanner fileIn = new Scanner(input);
+            File contactFile = new File("conversations/" + userID + ".txt");
+            Scanner fileIn = new Scanner(contactFile);
 
             //eats the old IP address
             fileIn.next();
@@ -135,8 +127,14 @@ public class Client {
             }
 
 
-            String output = IP + "\n" + buffer;
+            FileWriter fileOut = new FileWriter(contactFile);
 
+            //writes new IP address
+            fileOut.append(IP);
+            //adds the rest back in
+            fileOut.append(buffer);
+            fileOut.close();
+            fileIn.close();
 
         }
         catch(Exception e)
@@ -154,23 +152,15 @@ public class Client {
     //handle message from peer
     public void getMessage(String peerID, String message)
     {
-
-
+        //open the file for given contact
+        File file = new File("conversations/" + peerID + ".txt");
 
         //add the message with the recived tag
-        try {
-
-            String input = magicMachine.decrypt("conversations/" + peerID + ".txt");
-
-            input += "\nR " + message;
-
-            magicMachine.encrypt(input,"conversations/" + peerID + ".txt");
+        try (FileWriter out = new FileWriter(file, true)){
+            out.append("\nR " + message);
+            out.flush();
 
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
             e.printStackTrace();
         }
         System.out.println("Message from PeerID: " + peerID + ": " + message);
@@ -180,35 +170,25 @@ public class Client {
     }
 
     //method to send Message to given Peer
-    public void sendMessage(String fileName, String message) {
+    public void sendMessage(String fileName, String message) throws IOException {
 
         //opens contact file name
-        try {
-            String input = magicMachine.decrypt(fileName);
-            Scanner fileIn = new Scanner(input);
+        File file = new File(fileName);
+        Scanner fileIn = new Scanner(file);
 
-            //gets the IP address of the peer
-            String peerIP = fileIn.next();
+        //gets the IP address of the peer
+        String peerIP = fileIn.next();
 
-            //opens the socket
-            System.out.println("Peer IP is: " + peerIP.substring(1));
-            Socket peerSocket = new Socket(peerIP.substring(1), 6066);
+        //opens the socket
+        System.out.println("Peer IP is: " + peerIP.substring(1));
+        Socket peerSocket = new Socket(peerIP.substring(1), 6066);
 
-            //intis output
-            PrintWriter peerOut = new PrintWriter(peerSocket.getOutputStream());
+        //intis output
+        PrintWriter peerOut = new PrintWriter(peerSocket.getOutputStream());
 
-            //sends the message to the Peer
-            peerOut.println(userName + " " + message);
-            peerOut.flush();
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //sends the message to the Peer
+        peerOut.println(userName + " " + message);
+        peerOut.flush();
 
 
     }
@@ -235,6 +215,7 @@ public class Client {
         String message = systemIn.nextLine();
 
         client.sendMessage("conversations/" + peer + ".txt", message);
+
 
     }
 
