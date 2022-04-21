@@ -109,7 +109,7 @@ public class Client {
         String buffer = "";
         try{
             //opens the contacts folder
-            File contactFile = new File("conversations\\" + userID + ".txt");
+            File contactFile = new File("conversations/" + userID + ".txt");
             Scanner fileIn = new Scanner(contactFile);
 
             //eats the old IP address
