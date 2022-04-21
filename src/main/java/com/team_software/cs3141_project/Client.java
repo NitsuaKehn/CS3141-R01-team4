@@ -120,8 +120,9 @@ public class Client {
         String buffer = "";
         try{
             //opens the contacts folder
-            File contactFile = new File("conversations/" + userID + ".txt");
-            Scanner fileIn = new Scanner(contactFile);
+            //File contactFile = new File("conversations/" + userID + ".txt");
+            String input = magicMachine.decrypt("conversations/" + userID + ".txt");
+            Scanner fileIn = new Scanner(input);
 
             //eats the old IP address
             fileIn.next();
@@ -133,14 +134,8 @@ public class Client {
             }
 
 
-            FileWriter fileOut = new FileWriter(contactFile);
+            String output = IP + "\n" + buffer;
 
-            //writes new IP address
-            fileOut.append(IP);
-            //adds the rest back in
-            fileOut.append(buffer);
-            fileOut.close();
-            fileIn.close();
 
         }
         catch(Exception e)

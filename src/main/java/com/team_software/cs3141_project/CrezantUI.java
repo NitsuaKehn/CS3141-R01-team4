@@ -337,7 +337,7 @@ public class CrezantUI extends Application {
         //opens new scanner
         try
         {
-            String input = magicMachine.decrypt(file.getName());
+            String input = magicMachine.decrypt("conversations/" + file.getName());
 
             Scanner in = new Scanner(input);
 
