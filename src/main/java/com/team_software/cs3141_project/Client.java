@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 //client app
 public class Client {
 
-    private static String serverIp = "8.48.133.29";
+    private static String serverIp = "141.219.196.118";
     private static int port = 6066;
 
 
