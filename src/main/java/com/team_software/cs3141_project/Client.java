@@ -3,6 +3,8 @@ package com.team_software.cs3141_project;
 import java.io.*;
 
 import java.net.ServerSocket;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.net.Socket;
@@ -12,10 +14,12 @@ import java.util.concurrent.Executors;
 //client app
 public class Client {
 
-    private static String serverIp = "141.219.196.118";
+    private static String serverIp = "141.219.194.213";
     private static int port = 6066;
 
     private CrezantUI UI;
+    private Crypt magicMachine;
+
 
     static String input;
     static Socket server;
@@ -25,6 +29,7 @@ public class Client {
     private ArrayList<String> peerIPs = new ArrayList<>();
 
     private Executor executor = Executors.newCachedThreadPool();
+
 
     //method to get the IP address of a User from the server
     public String getIP(String PeerID)
@@ -69,9 +74,10 @@ public class Client {
 
 
     //startup method
-    public void startUp(String UserID, CrezantUI UI) throws IOException {
+    public void startUp(String UserID, CrezantUI UI, Crypt magicMachine) throws IOException {
 
         this.UI = UI;
+        this.magicMachine = magicMachine;
 
         //this clients username
         userName = UserID;
@@ -152,15 +158,23 @@ public class Client {
     //handle message from peer
     public void getMessage(String peerID, String message)
     {
-        //open the file for given contact
-        File file = new File("conversations/" + peerID + ".txt");
+
+
 
         //add the message with the recived tag
-        try (FileWriter out = new FileWriter(file, true)){
-            out.append("\nR " + message);
-            out.flush();
+        try {
+
+            String input = magicMachine.decrypt("conversations/" + peerID + ".txt");
+
+            input += "\nR " + message;
+
+            magicMachine.encrypt(input,"conversations/" + peerID + ".txt");
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
             e.printStackTrace();
         }
         System.out.println("Message from PeerID: " + peerID + ": " + message);
@@ -215,7 +229,6 @@ public class Client {
         String message = systemIn.nextLine();
 
         client.sendMessage("conversations/" + peer + ".txt", message);
-
 
     }
 

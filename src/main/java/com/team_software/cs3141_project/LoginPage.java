@@ -13,10 +13,20 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Scanner;
 
 import static javafx.application.Application.launch;
@@ -26,10 +36,14 @@ public class LoginPage extends Application{
     public static void main(String[] args) {
         launch(args);
     }
+    private Crypt magicMachine = null;
 
     public void start(Stage stage) throws Exception {
         //client.startListener();
         //client.startUp("");
+
+
+
 
 
         stage.setTitle("Crezant");
@@ -54,17 +68,13 @@ public class LoginPage extends Application{
         newuser.textFillProperty().set(Paint.valueOf("white"));
         newuser.setVisible(false);
 
+        //String buffer;
+
         boolean hastext = false;
         if(!infile.createNewFile()) {
-            try (Scanner in = new Scanner(infile)) {
-                if (in.hasNext()) {
-                    hastext = true;
-                }
-                in.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            hastext = true;
         }
+
 
         if(!hastext) { //if username-pass file does not exists
             newuser.setVisible(true);
@@ -79,15 +89,35 @@ public class LoginPage extends Application{
                         if (givenUser.length() != 0 && givenPass.length() != 0
                                 && !givenUser.contains(" ") && !givenPass.contains(" ")) {//check if user name taken and field not blank no space in username
                             try {
-                                FileWriter writer = new FileWriter(infile, true);
-                                writer.append(givenUser + "\n");
-                                writer.append(givenPass);
-                                writer.close();
+                                byte[] salt = // for learning purposes
+                                        { (byte) 0xc7, (byte) 0x73, (byte) 0x21, (byte) 0x8c,
+                                                (byte) 0x7e, (byte) 0xc8, (byte) 0xee, (byte) 0x99 };
+
+                                PBEKeySpec keySpec = new PBEKeySpec(givenPass.toCharArray(), salt, 65536, 256);
+                                SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+                                SecretKey tmp = factory.generateSecret(keySpec);
+                                SecretKey key = new SecretKeySpec(tmp.getEncoded(),"AES");
+
+                                magicMachine = new Crypt(key, "AES/CBC/PKCS5Padding");
+
+                                String buffer = givenUser + " \n" + givenPass;
+
+                                magicMachine.encrypt(buffer, "login.txt");
+
+
                             } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InvalidKeyException e) {
+                                e.printStackTrace();
+                            } catch (NoSuchPaddingException e) {
+                                e.printStackTrace();
+                            } catch (NoSuchAlgorithmException e) {
+                                e.printStackTrace();
+                            } catch (InvalidKeySpecException e) {
                                 e.printStackTrace();
                             }
                             System.out.println("open UI!");
-                            CrezantUI app = new CrezantUI(client, givenUser);
+                            CrezantUI app = new CrezantUI(client, givenUser, magicMachine);
                             stage.close();
                             try {
                                 app.start(stage);
@@ -108,16 +138,50 @@ public class LoginPage extends Application{
         }
         else{
             passwordField.setOnAction(new EventHandler<ActionEvent>() {
+
+
                 public void handle(ActionEvent actionEvent) {
-                    //check username and password
-                    try(Scanner in = new Scanner(infile))
+
+                    String buffer = null;
+
+                    try
                     {
+                        byte[] salt = // for learning purposes
+                                {(byte) 0xc7, (byte) 0x73, (byte) 0x21, (byte) 0x8c,
+                                        (byte) 0x7e, (byte) 0xc8, (byte) 0xee, (byte) 0x99};
+
+                        PBEKeySpec keySpec = new PBEKeySpec(passwordField.getCharacters().toString().toCharArray(), salt, 65536, 256);
+                        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+                        SecretKey tmp = factory.generateSecret(keySpec);
+                        SecretKey key = new SecretKeySpec(tmp.getEncoded(), "AES");
+
+                        magicMachine = new Crypt(key, "AES/CBC/PKCS5Padding");
+
+                        buffer = magicMachine.decrypt("login.txt");
+                    } catch (NoSuchPaddingException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    } catch (InvalidKeySpecException e) {
+                        e.printStackTrace();
+                    } catch (InvalidAlgorithmParameterException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InvalidKeyException e) {
+                        e.printStackTrace();
+                    }
+
+                    //check username and password
+                    try(Scanner in = new Scanner(buffer))
+                    {
+
                         String username = in.next();
                         String password = in.next();
                         if (usernameField.getCharacters().toString().equals(username)
                                 && passwordField.getCharacters().toString().equals(password)) {//check if user name taken and field not blank
                             System.out.println("open UI!");
-                            CrezantUI app = new CrezantUI(client, username);
+                            CrezantUI app = new CrezantUI(client, username, magicMachine);
                             stage.close();
                             app.start(stage);
                         }
