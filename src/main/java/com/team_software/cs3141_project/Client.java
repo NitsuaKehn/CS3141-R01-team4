@@ -204,7 +204,7 @@ public class Client {
 
         String message = systemIn.nextLine();
 
-        client.sendMessage(peer, message);
+        client.sendMessage("conversations/" + peer + ".txt", message);
 
 
     }
