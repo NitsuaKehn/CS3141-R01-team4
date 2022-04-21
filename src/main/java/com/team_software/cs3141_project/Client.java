@@ -25,7 +25,7 @@ public class Client {
     private Executor executor = Executors.newCachedThreadPool();
 
     //method to get the IP address of a User from the server
-    public static String getIP(String PeerID)
+    public String getIP(String PeerID)
     {
         out.println(PeerID);
         out.flush();
@@ -46,9 +46,9 @@ public class Client {
         out.flush();
 
         String temp = "";
-        while(in.hasNext())
+        while(in.hasNextLine())
         {
-            temp += in.next();
+            temp += (in.nextLine() + "\n");
         }
 
         server.close();
