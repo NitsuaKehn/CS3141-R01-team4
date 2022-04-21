@@ -152,13 +152,16 @@ public class Client {
         File file = new File("conversations/" + peerID + ".txt");
 
         //add the message with the recived tag
-        try (PrintWriter out = new PrintWriter(file)){
+        try (FileWriter out = new FileWriter(file, true)){
             out.append("R " + message);
             out.flush();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("Message from PeerID: " + peerID + ": " + message);
+
+
+
     }
 
     //method to send Message to given Peer
