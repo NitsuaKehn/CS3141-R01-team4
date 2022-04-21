@@ -106,7 +106,7 @@ public class Server {
         {
             //listens until it gets new client socket
             Socket clientSocket = serverSocket.accept();
-            System.out.println("Server connected to: " + clientSocket.getInetAddress());
+
 
             //reads in the user's username
             BufferedReader input = new BufferedReader( new InputStreamReader(clientSocket.getInputStream()));
@@ -115,13 +115,14 @@ public class Server {
 
             if(clientID.equals("DefaultUser"))
             {
+                System.out.println("Server got a default user from: " + clientSocket.getInetAddress());
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
                 File contacts = new File("ContactsServer");
                 Scanner in = new Scanner(contacts);
 
                 while(in.hasNextLine())
                 {
-                    out.print(in.nextLine());
+                    out.println(in.nextLine());
                 }
 
                 in.close();
@@ -131,6 +132,7 @@ public class Server {
             }
             else
             {
+                System.out.println("Server connected to: " + clientSocket.getInetAddress());
                 //updates contacts file
                 server.updateContact(clientID, clientSocket);
                 //handles connection
