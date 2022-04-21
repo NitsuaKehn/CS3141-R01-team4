@@ -32,6 +32,7 @@ public class Client {
         return in.next();
     }
 
+    //sends the speicel username "DefaultUser" to the server so that the server sends back the current contacts file
     public String deafaultStartUp()  throws IOException
     {
         //socket of the server
@@ -45,16 +46,21 @@ public class Client {
         out.println("DefaultUser");
         out.flush();
 
+        //buffer string
         String temp = "";
+        //loops until server is done sending
         while(in.hasNextLine())
         {
+            //adds next line to buffer
             temp += (in.nextLine() + "\n");
         }
 
+        //closes everything
         server.close();
         in.close();
         out.close();
 
+        //returns the string
         return temp;
 
     }

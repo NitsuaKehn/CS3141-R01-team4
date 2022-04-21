@@ -34,16 +34,23 @@ import java.util.Stack;
 
 public class CrezantUI extends Application {
     private String currentConvoFileName = "";
-    private Client client = new Client();
+    private Client client;
+    private String userName;
 
     public static void main(String[] args) {
         launch(args);
     }
 
+    public CrezantUI(Client client, String userName)
+    {
+        this.client = client;
+        this.userName = userName;
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         client.startListener();
-        //client.startUp("");
+        client.startUp(userName);
 
         stage.setTitle("Crezant");
 

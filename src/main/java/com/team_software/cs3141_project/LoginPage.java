@@ -30,7 +30,7 @@ public class LoginPage extends Application{
     public void start(Stage stage) throws Exception {
         //client.startListener();
         //client.startUp("");
-        checkUsername(client);
+
 
         stage.setTitle("Crezant");
         GridPane root = new GridPane();
@@ -75,7 +75,7 @@ public class LoginPage extends Application{
                     String givenUser = usernameField.getCharacters().toString();
                     String givenPass = passwordField.getCharacters().toString();
 
-                    if(true) { // check if username taken
+                    if(checkUsername(givenUser)) { // check if username taken
                         if (givenUser.length() != 0 && givenPass.length() != 0
                                 && !givenUser.contains(" ") && !givenPass.contains(" ")) {//check if user name taken and field not blank no space in username
                             try {
@@ -87,7 +87,7 @@ public class LoginPage extends Application{
                                 e.printStackTrace();
                             }
                             System.out.println("open UI!");
-                            CrezantUI app = new CrezantUI();
+                            CrezantUI app = new CrezantUI(client, givenUser);
                             stage.close();
                             try {
                                 app.start(stage);
@@ -117,7 +117,7 @@ public class LoginPage extends Application{
                         if (usernameField.getCharacters().toString().equals(username)
                                 && passwordField.getCharacters().toString().equals(password)) {//check if user name taken and field not blank
                             System.out.println("open UI!");
-                            CrezantUI app = new CrezantUI();
+                            CrezantUI app = new CrezantUI(client, username);
                             stage.close();
                             app.start(stage);
                         }
@@ -169,14 +169,25 @@ public class LoginPage extends Application{
         stage.show();
     }
 
-    public boolean checkUsername(Client client)
+    public boolean checkUsername(String userName)
     {
         String temp = null;
-        client.startListener();
         try
         {
             temp = client.deafaultStartUp();
-            System.out.println(temp);
+            Scanner in = new Scanner(temp);
+
+
+            while(in.hasNextLine())
+            {
+                if(in.nextLine().startsWith(userName))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+
         }
         catch(IOException e)
         {
