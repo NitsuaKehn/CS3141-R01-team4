@@ -51,7 +51,7 @@ public class CrezantUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         client.startListener();
-        client.startUp(userName);
+        client.startUp(userName, this);
 
         stage.setTitle("Crezant");
 

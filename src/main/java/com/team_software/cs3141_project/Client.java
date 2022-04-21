@@ -15,6 +15,7 @@ public class Client {
     private static String serverIp = "141.219.196.118";
     private static int port = 6066;
 
+    private CrezantUI UI;
 
     static String input;
     static Socket server;
@@ -68,7 +69,10 @@ public class Client {
 
 
     //startup method
-    public void startUp(String UserID) throws IOException {
+    public void startUp(String UserID, CrezantUI UI) throws IOException {
+
+        this.UI = UI;
+
         //this clients username
         userName = UserID;
         //socket of the server
@@ -160,7 +164,7 @@ public class Client {
         }
         System.out.println("Message from PeerID: " + peerID + ": " + message);
 
-
+        UI.refresh();
 
     }
 
@@ -199,7 +203,7 @@ public class Client {
 
         client.startListener();
 
-        client.startUp(systemIn.nextLine());
+        //client.startUp(systemIn.nextLine());
 
         System.out.println("who would you like to talk to");
 
