@@ -3,6 +3,7 @@ package com.team_software.cs3141_project;
 import java.io.*;
 
 import java.net.ServerSocket;
+import java.net.UnknownHostException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.util.ArrayList;
@@ -179,25 +180,35 @@ public class Client {
     }
 
     //method to send Message to given Peer
-    public void sendMessage(String fileName, String message) throws IOException {
+    public void sendMessage(String fileName, String message) {
 
         //opens contact file name
-        File file = new File(fileName);
-        Scanner fileIn = new Scanner(file);
+        try {
+            String input = magicMachine.decrypt(fileName);
+            Scanner fileIn = new Scanner(input);
 
-        //gets the IP address of the peer
-        String peerIP = fileIn.next();
+            //gets the IP address of the peer
+            String peerIP = fileIn.next();
 
-        //opens the socket
-        System.out.println("Peer IP is: " + peerIP.substring(1));
-        Socket peerSocket = new Socket(peerIP.substring(1), 6066);
+            //opens the socket
+            System.out.println("Peer IP is: " + peerIP.substring(1));
+            Socket peerSocket = new Socket(peerIP.substring(1), 6066);
 
-        //intis output
-        PrintWriter peerOut = new PrintWriter(peerSocket.getOutputStream());
+            //intis output
+            PrintWriter peerOut = new PrintWriter(peerSocket.getOutputStream());
 
-        //sends the message to the Peer
-        peerOut.println(userName + " " + message);
-        peerOut.flush();
+            //sends the message to the Peer
+            peerOut.println(userName + " " + message);
+            peerOut.flush();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
