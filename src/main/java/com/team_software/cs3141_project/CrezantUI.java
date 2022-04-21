@@ -36,6 +36,7 @@ public class CrezantUI extends Application {
     private String currentConvoFileName = "";
     private Client client;
     private String userName;
+    private VBox messagesField;
 
     public static void main(String[] args) {
         launch(args);
@@ -110,7 +111,7 @@ public class CrezantUI extends Application {
         root.add(sendMessageBtn, 1, 2, 3, 1);
 
         //makes messages vbox
-        VBox messagesField = new VBox();//vbox to hold sent and received messages
+        messagesField = new VBox();//vbox to hold sent and received messages
         messagesField.setSpacing(10);
         messagesField.prefWidthProperty().bind(stage.widthProperty());//makes the vbox always as big as the stage
         messagesField.setBackground(new Background(new BackgroundFill(Paint.valueOf("#3C3C3C"), null, null)));//sets the background color
@@ -474,5 +475,12 @@ public class CrezantUI extends Application {
             errorLabel.setText("User Does Not Exist!");
             errorLabel.setVisible(true);
         }
+    }
+
+    public void refresh()
+    {
+        File file = new File(currentConvoFileName);
+        messagesField.getChildren().clear();
+        displayText(file, messagesField);
     }
 }

@@ -175,6 +175,7 @@ public class Client {
         String peerIP = fileIn.next();
 
         //opens the socket
+        System.out.println("Peer IP is: " + peerIP.substring(1));
         Socket peerSocket = new Socket(peerIP.substring(1), 6066);
 
         //intis output
