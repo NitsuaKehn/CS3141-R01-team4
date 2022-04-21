@@ -164,7 +164,7 @@ public class Client {
     public void sendMessage(String fileName, String message) throws IOException {
 
         //opens contact file name
-        File file = new File("conversations/" + fileName);
+        File file = new File(fileName);
         Scanner fileIn = new Scanner(file);
 
         //gets the IP address of the peer
