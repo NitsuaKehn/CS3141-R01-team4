@@ -113,10 +113,30 @@ public class Server {
 
             String clientID = input.readLine();
 
-            //updates contacts file
-            server.updateContact(clientID, clientSocket);
-            //handles connection
-            server.handleConnection(clientSocket);
+            if(clientID.equals("DefaultUser"))
+            {
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
+                File contacts = new File("ContactsServer");
+                Scanner in = new Scanner(contacts);
+
+                while(in.hasNextLine())
+                {
+                    out.print(in.nextLine());
+                }
+
+                in.close();
+                out.close();
+                clientSocket.close();
+
+            }
+            else
+            {
+                //updates contacts file
+                server.updateContact(clientID, clientSocket);
+                //handles connection
+                server.handleConnection(clientSocket);
+            }
+
 
 
 

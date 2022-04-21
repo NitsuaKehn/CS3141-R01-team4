@@ -30,6 +30,7 @@ public class LoginPage extends Application{
     public void start(Stage stage) throws Exception {
         //client.startListener();
         //client.startUp("");
+        checkUsername(client);
 
         stage.setTitle("Crezant");
         GridPane root = new GridPane();
@@ -166,5 +167,22 @@ public class LoginPage extends Application{
         stage.setMinHeight(250);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public boolean checkUsername(Client client)
+    {
+        String temp = null;
+        client.startListener();
+        try
+        {
+            temp = client.deafaultStartUp();
+            System.out.println(temp);
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 //client app
 public class Client {
 
-    private static String serverIp = "141.219.231.100";
+    private static String serverIp = "8.48.133.29";
     private static int port = 6066;
 
 
@@ -30,6 +30,33 @@ public class Client {
         out.println(PeerID);
         out.flush();
         return in.next();
+    }
+
+    public String deafaultStartUp()  throws IOException
+    {
+        //socket of the server
+        server = new Socket(serverIp, port);
+        //inits server
+        in = new Scanner(server.getInputStream());
+        //inits output
+        out = new PrintWriter(server.getOutputStream());
+
+        //sends our username so server can update our IP
+        out.println("DefaultUser");
+        out.flush();
+
+        String temp = "";
+        while(in.hasNext())
+        {
+            temp += in.next();
+        }
+
+        server.close();
+        in.close();
+        out.close();
+
+        return temp;
+
     }
 
 
