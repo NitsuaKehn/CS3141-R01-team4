@@ -2,6 +2,7 @@ package com.team_software.cs3141_project;
 
 import java.io.*;
 
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.net.Socket;
@@ -171,7 +172,7 @@ public class Client {
         String peerIP = fileIn.next();
 
         //opens the socket
-        Socket peerSocket = new Socket(peerIP.substring(1), 6067);
+        Socket peerSocket = new Socket(peerIP.substring(1), 6066);
 
         //intis output
         PrintWriter peerOut = new PrintWriter(peerSocket.getOutputStream());
@@ -208,4 +209,12 @@ public class Client {
 
 
     }
+
+//    public static void main(String[] args) throws IOException {
+//        ServerSocket test = new ServerSocket(6067);
+//
+//        Socket test2 = test.accept();
+//
+//        System.out.println("good");
+//    }
 }

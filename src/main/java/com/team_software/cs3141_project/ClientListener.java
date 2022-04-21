@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 //class to listen for new peer connections
 public class ClientListener implements Runnable{
 
-    private static int portNumber = 6067;//default port number
+    private static int portNumber = 6066;//default port number
 
     private Executor executor = Executors.newCachedThreadPool();
 
