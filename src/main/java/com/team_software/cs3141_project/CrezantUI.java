@@ -303,7 +303,7 @@ public class CrezantUI extends Application {
         displayText(file, root);
 
         //Call Client's sendMessage to send msg to peer
-        client.sendMessage(peerIP, message);
+        client.sendMessage(fileName, message);
 
     }
 

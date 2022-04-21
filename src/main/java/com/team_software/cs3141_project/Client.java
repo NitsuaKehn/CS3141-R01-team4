@@ -161,10 +161,10 @@ public class Client {
     }
 
     //method to send Message to given Peer
-    public void sendMessage(String peerID, String message) throws IOException {
+    public void sendMessage(String fileName, String message) throws IOException {
 
         //opens contact file name
-        File file = new File("conversations/" + peerID + ".txt");
+        File file = new File("conversations/" + fileName);
         Scanner fileIn = new Scanner(file);
 
         //gets the IP address of the peer
