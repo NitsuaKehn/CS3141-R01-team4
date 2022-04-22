@@ -90,20 +90,20 @@ public class Client {
         File directoryPath = new File("conversations");
         String contents[] = directoryPath.list();
 
-        for(int i = 0; i < contents.length; i++)
-        {
-            String peerID = contents[i].replace(".txt", "");
+        if(contents != null) {
+            for (int i = 0; i < contents.length; i++) {
+                String peerID = contents[i].replace(".txt", "");
 
-            String peerIP = getIP(peerID);
+                String peerIP = getIP(peerID);
 
-            if(!peerIP.equals("null"))
-            {
-                this.updateIP(peerID, peerIP);
+                if (!peerIP.equals("null")) {
+                    this.updateIP(peerID, peerIP);
+                }
+
+
+                System.out.println("client updated ip of: " + peerID + " to: " + peerIP);
+
             }
-
-
-            System.out.println("client updated ip of: " + peerID + " to: " + peerIP);
-
         }
     }
 

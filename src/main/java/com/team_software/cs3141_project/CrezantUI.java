@@ -151,11 +151,15 @@ public class CrezantUI extends Application {
 
         //for loop that reads through each file in a folder
         //and creates a button with the file name and its listener
-        for(int i=0; i<contents.length; i++) {
-            String fileName = contents[i];
-            //create a cool button
-            createConvoButton(stage, contactsField, messagesField, convoButton, fileName);
+        if(contents != null)
+        {
+            for(int i=0; i<contents.length; i++) {
+                String fileName = contents[i];
+                //create a cool button
+                createConvoButton(stage, contactsField, messagesField, convoButton, fileName);
+            }
         }
+
         //pop for convo button
         //create pop up
         Popup popup = new Popup();
